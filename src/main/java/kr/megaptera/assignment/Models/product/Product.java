@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import kr.megaptera.assignment.DTOs.product.*;
 import kr.megaptera.assignment.DTOs.review.*;
 import kr.megaptera.assignment.Models.*;
+import kr.megaptera.assignment.Models.cart.*;
 import kr.megaptera.assignment.Models.review.*;
 import kr.megaptera.assignment.exceptions.*;
 
@@ -18,6 +19,9 @@ public class Product {
     @Column(name = "id")
     private ProductId id;
     @Embedded
+    @AttributeOverride(name = "user_id", column = @Column(name = "user_id"))
+    private UserId userId;
+    @Embedded
     @Column(name = "type")
     private ProductType type;
     @Column(name = "name")
@@ -25,9 +29,9 @@ public class Product {
     @Column(name = "price")
     private Integer price;
     @Embedded
-    private MultilineText content;
-    @Embedded
     private Quantity quantity;
+    @Embedded
+    private MultilineText content;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "product_id")
@@ -53,8 +57,28 @@ public class Product {
         this.content = content;
     }
 
+    public Product(ProductId id,
+                   UserId userId,
+                   ProductType type,
+                   String name,
+                   Integer price,
+                   Quantity quantity,
+                   MultilineText content) {
+        this.id = id;
+        this.userId = userId;
+        this.type = type;
+        this.name = name;
+        this.price = price;
+        this.quantity = quantity;
+        this.content = content;
+    }
+
     public ProductId id() {
         return id;
+    }
+
+    public UserId userId() {
+        return userId;
     }
 
     public ProductType type() {
@@ -69,13 +93,14 @@ public class Product {
         return price;
     }
 
+    public Quantity quantity() {
+        return quantity;
+    }
+
     public MultilineText content() {
         return content;
     }
 
-    public Quantity quantity() {
-        return quantity;
-    }
 
     public void update(ProductUpdateDTO productUpdateDTO) {
         this.name = productUpdateDTO.getName();
@@ -125,6 +150,6 @@ public class Product {
     }
 
     public void updateQuantity(Integer quantity) {
-        this.quantity = Quantity.of(quantity);
+        this.quantity.update(quantity);
     }
 }

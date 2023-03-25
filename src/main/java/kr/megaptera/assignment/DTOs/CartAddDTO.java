@@ -1,14 +1,14 @@
 package kr.megaptera.assignment.DTOs;
 
-public class CartDTO {
+public class CartAddDTO {
     private String productId;
 
     private Integer quantity;
 
-    public CartDTO() {
+    public CartAddDTO() {
     }
 
-    public CartDTO(String productId, int quantity) {
+    public CartAddDTO(String productId, int quantity) {
         this.productId = productId;
         this.quantity = quantity;
     }

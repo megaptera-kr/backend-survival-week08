@@ -41,4 +41,8 @@ public class Quantity {
     public int hashCode() {
         return Objects.hash(quantity);
     }
+
+    public void update(Integer quantity) {
+        this.quantity += quantity;
+    }
 }

@@ -21,11 +21,10 @@ public class AddProductInCartService {
         this.cartRepository = cartRepository;
     }
 
-    public void addProductInCart(String userId, CartDTO cartDTO) {
+    public void addProduct(String userId, CartAddDTO cartAddDTO) {
         Cart cart = cartRepository.findById(userId).get();
-        Product product = productRepository.findById(ProductId.of(cartDTO.getProductId())).get();
-        Product copy = product;
-        copy.updateQuantity(cartDTO.getQuantity());
-        cart.addProductInCart(copy);
+        Product product = productRepository.findById(ProductId.of(cartAddDTO.getProductId())).get();
+
+        cart.addProduct(product, cartAddDTO.getQuantity());
     }
 }

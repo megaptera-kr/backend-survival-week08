@@ -28,6 +28,7 @@ public class CartController {
     public List<ProductDTO> list() {
         // 세션에 저장되어있을 아이디 임의로 지정
         String userId = "jyh";
+
         List<ProductDTO> itemInCart = getProductsInCartService.getItemInCart(userId);
         return itemInCart;
     }
@@ -35,12 +36,11 @@ public class CartController {
     @PostMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void addProduct(
-            @RequestBody CartDTO cartDTO
+            @RequestBody CartAddDTO cartAddDTO
     ) {
         // 세션에 저장되어있을 아이디 임의로 지정
         String userId = "jyh";
-
-        addProductInCartService.addProductInCart(userId, cartDTO);
+        addProductInCartService.addProduct(userId, cartAddDTO);
     }
 
     @DeleteMapping("/{productId}")
@@ -50,6 +50,6 @@ public class CartController {
     ) {
         // 세션에 저장되어있을 아이디 임의로 지정
         String userId = "jyh";
-        
+
     }
 }

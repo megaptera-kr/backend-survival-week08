@@ -35,8 +35,8 @@ public class CartControllerTest {
     void getProductsInCart() throws Exception {
         String userId = "test";
         given(getProductsInCartService.getItemInCart(userId)).willReturn(
-                List.of(new ProductDTO("ID_001", "TOP_001", "jacket", 75000, "nice jacket"),
-                        new ProductDTO("ID_002", "BOTTOM_001", "jean", 55000, "great jean"))
+                List.of(new ProductDTO("ID_001", userId, "TOP_001", "jacket", 75000, 5, "nice jacket"),
+                        new ProductDTO("ID_002", userId, "BOTTOM_001", "jean", 55000, 3, "great jean"))
         );
 
         mockMvc.perform(get("/cart"))
@@ -48,7 +48,7 @@ public class CartControllerTest {
     @DisplayName("POST 카트에 상품 넣기")
     void addProductInCart() throws Exception {
         String userId = "ID_001";
-        String cartDTO = """
+        String cartAddDTO = """
                 {
                     "productId": "TOP_01",
                     "quantity": 5

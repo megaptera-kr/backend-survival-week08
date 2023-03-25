@@ -3,10 +3,11 @@ package kr.megaptera.assignment.Models.product;
 import com.github.f4b6a3.tsid.*;
 import jakarta.persistence.*;
 
+import java.io.*;
 import java.util.*;
 
 @Embeddable
-public class ProductId {
+public class ProductId implements Serializable {
     @Column(name = "id")
     private String id;
 
