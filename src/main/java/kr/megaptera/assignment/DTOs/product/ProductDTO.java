@@ -3,7 +3,7 @@ package kr.megaptera.assignment.DTOs.product;
 import kr.megaptera.assignment.Models.product.*;
 
 public class ProductDTO {
-    private String id;
+    private String productId;
     private String userId;
     private String type;
     private String name;
@@ -14,16 +14,16 @@ public class ProductDTO {
     public ProductDTO() {
     }
 
-    public ProductDTO(String id, String type, String name, Integer price, String content) {
-        this.id = id;
+    public ProductDTO(String productId, String type, String name, Integer price, String content) {
+        this.productId = productId;
         this.type = type;
         this.name = name;
         this.price = price;
         this.content = content;
     }
 
-    public ProductDTO(String id, String userId, String type, String name, Integer price, Integer quantity, String content) {
-        this.id = id;
+    public ProductDTO(String productId, String userId, String type, String name, Integer price, Integer quantity, String content) {
+        this.productId = productId;
         this.userId = userId;
         this.type = type;
         this.name = name;
@@ -41,8 +41,8 @@ public class ProductDTO {
                 product.content().toString());
     }
 
-    public String getId() {
-        return id;
+    public String getProductId() {
+        return productId;
     }
 
     public String getType() {
@@ -59,5 +59,13 @@ public class ProductDTO {
 
     public String getContent() {
         return content;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
     }
 }

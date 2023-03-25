@@ -8,11 +8,12 @@ import kr.megaptera.assignment.Models.cart.*;
 import kr.megaptera.assignment.Models.review.*;
 import kr.megaptera.assignment.exceptions.*;
 
+import java.io.*;
 import java.util.*;
 
 @Entity
 @Table(name = "products")
-public class Product {
+public class Product implements Serializable {
 
     @Embedded
     @Id

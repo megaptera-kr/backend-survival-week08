@@ -1,5 +1,6 @@
 package kr.megaptera.assignment.controllers;
 
+import kr.megaptera.assignment.DTOs.*;
 import kr.megaptera.assignment.DTOs.product.*;
 import kr.megaptera.assignment.application.cart.*;
 import org.junit.jupiter.api.*;
@@ -10,10 +11,9 @@ import org.springframework.test.web.servlet.*;
 
 import java.util.*;
 
-import static org.hamcrest.Matchers.*;
+import static org.assertj.core.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
 
 @WebMvcTest(CartController.class)
 public class CartControllerTest {
@@ -28,7 +28,7 @@ public class CartControllerTest {
     private AddProductInCartService addProductInCartService;
 
     @MockBean
-    RemoveProductIncartService removeProductIncartService;
+    private RemoveProductIncartService removeProductIncartService;
 
     @Test
     @DisplayName("GET 카트 목록 얻기")
@@ -39,21 +39,26 @@ public class CartControllerTest {
                         new ProductDTO("ID_002", userId, "BOTTOM_001", "jean", 55000, 3, "great jean"))
         );
 
-        mockMvc.perform(get("/cart"))
-                .andExpect(status().isOk())
-                .andExpect(content().string(containsString("jacket")));
+        assertThat(getProductsInCartService.getItemInCart(userId)).hasSize(2);
     }
 
     @Test
     @DisplayName("POST 카트에 상품 넣기")
     void addProductInCart() throws Exception {
-        String userId = "ID_001";
-        String cartAddDTO = """
-                {
-                    "productId": "TOP_01",
-                    "quantity": 5
-                }
-                """;
+        String userId = "test";
+        CartAddDTO cartAddDTO = new CartAddDTO("jean", 4);
+
+        given(getProductsInCartService.getItemInCart(userId)).willReturn(
+                List.of(new ProductDTO("ID_001", userId, "TOP_001", "jacket", 75000, 5, "nice jacket"),
+                        new ProductDTO("jean", userId, "BOTTOM_001", "blue_jean", 55000, 3, "great jean"))
+        );
+
+        assertThat(getProductsInCartService.getItemInCart(userId)).hasSize(2);
+
+        addProductInCartService.addProduct(userId, cartAddDTO);
+
+        assertThat(getProductsInCartService.getItemInCart(userId).get(1).getProductId()).isEqualTo("jean");
+        assertThat(getProductsInCartService.getItemInCart(userId).get(1).getQuantity()).isEqualTo(4);
     }
 
     @Test
