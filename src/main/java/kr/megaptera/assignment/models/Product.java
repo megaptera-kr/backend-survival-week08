@@ -29,20 +29,19 @@ public class Product {
 
     private String subCategory;
 
-    private LocalDateTime createTime;
+    private LocalDateTime regDateTime;
 
     @OneToMany(mappedBy = "productId", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Item> items = new ArrayList<>();
 
-    public Product(String name, String description, String brand, String category, String subCategory,
-                   LocalDateTime createTime) {
+    public Product(String name, String description, String brand, String category, String subCategory) {
         this.id = ProductId.generate();
         this.name = name;
         this.description = description;
         this.brand = brand;
         this.category = category;
         this.subCategory = subCategory;
-        this.createTime = createTime;
+        this.regDateTime = LocalDateTime.now();
     }
 
     public void update(String name, String description) {

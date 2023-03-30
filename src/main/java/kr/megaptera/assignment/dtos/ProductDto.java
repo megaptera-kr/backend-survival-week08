@@ -22,11 +22,11 @@ public class ProductDto {
 
     private String subCategory;
 
-    private LocalDateTime createTime;
+    private LocalDateTime regDateTime;
 
     public ProductDto(Product product) {
         this(product.getId().toString(), product.getName(), product.getDescription(),
-                product.getBrand(), product.getCategory(), product.getSubCategory(), product.getCreateTime());
+                product.getBrand(), product.getCategory(), product.getSubCategory(), product.getRegDateTime());
     }
 
 }

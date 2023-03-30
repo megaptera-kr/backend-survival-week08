@@ -3,7 +3,6 @@ package kr.megaptera.assignment.controllers;
 
 import kr.megaptera.assignment.application.CartService;
 import kr.megaptera.assignment.dtos.CartDto;
-import kr.megaptera.assignment.dtos.ItemDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -32,13 +31,14 @@ public class CartController {
     }
 
     @DeleteMapping("/items/{itemId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public CartDto deleteItemToCart(@RequestAttribute String userId, @PathVariable String itemId) {
         CartDto deletedCartDto = cartService.removeCart(userId, itemId);
         return deletedCartDto;
     }
 
     @PatchMapping("/{cartId}/{count}")
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public CartDto updateItemCountToCart(@RequestAttribute String userId, @PathVariable String cartId,
                                     @PathVariable Integer count) {
         CartDto addedCart = cartService.updateItemCoCart(cartId, userId, count);

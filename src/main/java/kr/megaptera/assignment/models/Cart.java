@@ -16,7 +16,7 @@ public class Cart {
 
     private Integer count;
 
-    private LocalDateTime updateDate;
+    private LocalDateTime updateDateTime;
 
     @ManyToOne
     private Item item;
@@ -25,12 +25,12 @@ public class Cart {
         this.id = CartId.generate();
         this.item = item;
         this.count = count;
-        this.updateDate = LocalDateTime.now();
+        this.updateDateTime = LocalDateTime.now();
     }
 
     public void update(Integer count) {
         this.count = count;
-        this.updateDate = LocalDateTime.now();
+        this.updateDateTime = LocalDateTime.now();
     }
 
 }

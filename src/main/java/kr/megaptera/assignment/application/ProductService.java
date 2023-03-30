@@ -27,8 +27,7 @@ public class ProductService {
 
     public ProductDto addProduct(ProductDto productDto) {
         Product product = new Product(productDto.getName(), productDto.getDescription(),
-                productDto.getBrand(), productDto.getCategory(), productDto.getSubCategory(),
-                productDto.getCreateTime());
+                productDto.getBrand(), productDto.getCategory(), productDto.getSubCategory());
 
         product = productRepository.save(product);
         return new ProductDto(product);

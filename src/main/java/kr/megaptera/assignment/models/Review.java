@@ -18,13 +18,25 @@ public class Review {
 
     @Lob
     @Basic(fetch = FetchType.EAGER)
-    private String description;
+    private String contents;
 
-    private LocalDateTime regDate;
+    private LocalDateTime regDateTime;
 
     private String userId;
 
     @ManyToOne
     private Product product;
+
+    public Review(String contents, String userId, Product product) {
+        this.id = ReviewId.generate();
+        this.contents = contents;
+        this.regDateTime = LocalDateTime.now();
+        this.userId = userId;
+        this.product = product;
+    }
+
+    public void update(String contents) {
+        this.contents = contents;
+    }
 
 }

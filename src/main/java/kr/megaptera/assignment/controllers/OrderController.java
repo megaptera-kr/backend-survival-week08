@@ -1,5 +1,6 @@
 package kr.megaptera.assignment.controllers;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,6 +15,7 @@ public class OrderController {
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public String requestOrder(@RequestAttribute String userId, @RequestBody List<String> carts) {
         return "Items in cart" + carts.toString() + " are ordered by User " + userId + ".";
     }

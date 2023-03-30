@@ -1,22 +1,22 @@
-package kr.megaptera.assignment.models;
+package kr.megaptera.assignment.dtos;
 
 import jakarta.persistence.*;
+import kr.megaptera.assignment.models.Address;
+import kr.megaptera.assignment.models.OrderItem;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
 @Getter
-@ToString
 @NoArgsConstructor
-public class Order {
+@AllArgsConstructor
+public class OrderDto {
 
-    @EmbeddedId
-    private OrderId id;
+    private String id;
 
     private String recipientName;
 
@@ -31,7 +31,7 @@ public class Order {
 
     private String userId;
 
-    @OneToMany(mappedBy = "orderId", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItem> orderItems = new ArrayList<>();
 
 }
+
