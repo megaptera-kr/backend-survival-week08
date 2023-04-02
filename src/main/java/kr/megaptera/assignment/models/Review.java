@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDateTime;
 
@@ -16,22 +17,23 @@ public class Review {
     @EmbeddedId
     private ReviewId id;
 
+    @ManyToOne
+    private Product product;
+
     @Lob
     @Basic(fetch = FetchType.EAGER)
     private String contents;
 
     private LocalDateTime regDateTime;
 
-    private String userId;
+    @ColumnDefault("1")
+    private String accountId;
 
-    @ManyToOne
-    private Product product;
-
-    public Review(String contents, String userId, Product product) {
+    public Review(String contents, String accountId, Product product) {
         this.id = ReviewId.generate();
         this.contents = contents;
         this.regDateTime = LocalDateTime.now();
-        this.userId = userId;
+        this.accountId = accountId;
         this.product = product;
     }
 

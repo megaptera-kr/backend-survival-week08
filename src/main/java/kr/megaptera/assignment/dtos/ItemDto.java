@@ -22,9 +22,11 @@ public class ItemDto {
 
     private Integer onSalePrice;
 
+    private Integer shippingDays;
+
     public ItemDto(Item item) {
-        this(item.getId().toString(), item.getProductId().toString(), item.getColor(), item.getSize(),
-                item.getStock(), item.getOriginalPrice(), item.getOnSalePrice());
+        this(item.getId().toString(), item.getProduct().getId().toString(), item.getColor(), item.getSize(),
+                item.getStock(), item.getOriginalPrice(), item.getOnSalePrice(), item.getShippingDays());
     }
 
 }

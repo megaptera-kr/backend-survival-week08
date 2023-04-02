@@ -12,15 +12,17 @@ public class CartDto {
 
     private String id;
 
+    private String accountId;
+
     private String itemId;
 
     private Integer count;
 
-    private LocalDateTime updateDate;
+    private LocalDateTime updateDateTime;
 
     public CartDto(Cart cart) {
-        this(cart.getId().toString(), cart.getItem().getId().toString(),
-                cart.getCount(), cart.getUpdateDate());
+        this(cart.getId().toString(), cart.getAccountId(), cart.getItem().getId().toString(),
+                cart.getCount(), cart.getUpdateDateTime());
     }
 
 }

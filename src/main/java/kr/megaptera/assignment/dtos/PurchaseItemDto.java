@@ -1,20 +1,22 @@
-package kr.megaptera.assignment.models;
+package kr.megaptera.assignment.dtos;
 
 import jakarta.persistence.*;
+import kr.megaptera.assignment.models.Item;
+import kr.megaptera.assignment.models.OrderStatus;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 import java.time.LocalDateTime;
 
-@Entity
 @Getter
-@ToString
 @NoArgsConstructor
-public class OrderItem {
+@AllArgsConstructor
+public class PurchaseItemDto {
 
-    @EmbeddedId
-    private OrderItemId id;
+    private String id;
+
+    private String itemId;
 
     private Integer count;
 
@@ -24,8 +26,5 @@ public class OrderItem {
 
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
-
-    @ManyToOne
-    private Item item;
 
 }

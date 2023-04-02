@@ -26,9 +26,9 @@ public class ReviewService {
         return reviews.stream().map(review -> new ReviewDto(review)).toList();
     }
 
-    public ReviewDto createReview(String userId, String productId, String contents) {
+    public ReviewDto createReview(String accountId, String productId, String contents) {
         Product product = productRepository.findById(ProductId.of(productId)).orElseThrow();
-        Review review = new Review(contents, userId, product);
+        Review review = new Review(contents, accountId, product);
         review = reviewRepository.save(review);
         return new ReviewDto(review);
     }

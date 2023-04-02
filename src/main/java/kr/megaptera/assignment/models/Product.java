@@ -31,7 +31,7 @@ public class Product {
 
     private LocalDateTime regDateTime;
 
-    @OneToMany(mappedBy = "productId", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Item> items = new ArrayList<>();
 
     public Product(String name, String description, String brand, String category, String subCategory) {

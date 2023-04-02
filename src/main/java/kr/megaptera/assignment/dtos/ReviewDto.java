@@ -18,18 +18,18 @@ public class ReviewDto {
 
     private String id;
 
+    private String productId;
+
     private String contents;
 
     private LocalDateTime regDateTime;
 
-    private String userId;
+    private String accountId;
 
-    @ManyToOne
-    private Product product;
 
     public ReviewDto(Review review) {
-        this(review.getId().toString(), review.getContents(), review.getRegDateTime(),
-                review.getUserId(), review.getProduct());
+        this(review.getId().toString(), review.getProduct().getId().toString(),
+                review.getContents(), review.getRegDateTime(), review.getAccountId());
     }
 
 }

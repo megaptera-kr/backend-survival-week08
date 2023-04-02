@@ -27,28 +27,28 @@ public class ReviewController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ReviewDto createReview(@RequestAttribute String userId,
+    public ReviewDto createReview(@RequestAttribute String accountId,
                                   @PathVariable String productId, @RequestBody String contents) {
-        ReviewDto createdReviewDto = reviewService.createReview(userId, productId, contents);
-        log.info("A Review of Product " + productId + " is created by User " + userId + ".");
+        ReviewDto createdReviewDto = reviewService.createReview(accountId, productId, contents);
+        log.info("A Review of Product " + productId + " is created by User " + accountId + ".");
         return createdReviewDto;
     }
 
     @PatchMapping("/{reviewId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public ReviewDto updateReview(@RequestAttribute String userId, @PathVariable String productId,
+    public ReviewDto updateReview(@RequestAttribute String accountId, @PathVariable String productId,
                                @PathVariable String reviewId, @RequestBody String contents) {
         ReviewDto updatedReviewDto = reviewService.updateReview(reviewId, contents);
-        log.info("A Review " + reviewId + " of Product " + productId + " is updated by User " + userId + ".");
+        log.info("A Review " + reviewId + " of Product " + productId + " is updated by User " + accountId + ".");
         return updatedReviewDto;
     }
 
     @DeleteMapping("/{reviewId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public ReviewDto deleteReview(@RequestAttribute String userId, @PathVariable Long productId,
+    public ReviewDto deleteReview(@RequestAttribute String accountId, @PathVariable Long productId,
                                @PathVariable String reviewId) {
         ReviewDto deletedReviewDto = reviewService.deleteReview(reviewId);
-        log.info("A Review " + reviewId + " of Product " + productId + " is deleted by User " + userId + ".");
+        log.info("A Review " + reviewId + " of Product " + productId + " is deleted by User " + accountId + ".");
         return deletedReviewDto;
     }
 

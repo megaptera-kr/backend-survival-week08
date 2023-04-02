@@ -12,16 +12,16 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-public class OrderItemId implements Serializable {
+public class PurchaseId implements Serializable {
 
     private String id;
 
-    public static OrderItemId of(String id) {
-        return new OrderItemId(id);
+    public static PurchaseId of(String id) {
+        return new PurchaseId(id);
     }
 
-    public static OrderItemId generate() {
-        return new OrderItemId(TsidCreator.getTsid().toString());
+    public static PurchaseId generate() {
+        return new PurchaseId(TsidCreator.getTsid().toString());
     }
 
     @Override

@@ -1,10 +1,9 @@
 package kr.megaptera.assignment.models;
 
-import jakarta.persistence.AttributeOverride;
-import jakarta.persistence.Column;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 import lombok.*;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -15,8 +14,8 @@ public class Item {
     @EmbeddedId
     private ItemId id;
 
-    @AttributeOverride(name = "id", column = @Column(name = "productid"))
-    private ProductId productId;
+    @ManyToOne
+    private Product product;
 
     private String color;
 
@@ -28,20 +27,24 @@ public class Item {
 
     private Integer onSalePrice;
 
-    public Item(ProductId productId, String color, String size,
-                Integer stock, Integer originalPrice, Integer onSalePrice) {
+    private Integer shippingDays;
+
+    public Item(Product product, String color, String size,
+                Integer stock, Integer originalPrice, Integer onSalePrice, Integer shippingDays) {
         this.id = ItemId.generate();
-        this.productId = productId;
+        this.product = product;
         this.color = color;
         this.size = size;
         this.stock = stock;
         this.originalPrice = originalPrice;
         this.onSalePrice = onSalePrice;
+        this.shippingDays = shippingDays;
     }
 
-    public void update(Integer stock, Integer originalPrice, Integer onSalePrice) {
+    public void update(Integer stock, Integer originalPrice, Integer onSalePrice, Integer shippingDays) {
         this.stock = stock;
         this.originalPrice = originalPrice;
         this.onSalePrice = onSalePrice;
+        this.shippingDays = shippingDays;
     }
 }

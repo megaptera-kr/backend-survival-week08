@@ -19,7 +19,7 @@ public class Sale {
     private Integer count;
 
     @ManyToOne
-    private Order order;
+    private Purchase purchase;
 
     @ManyToOne
     private Item item;

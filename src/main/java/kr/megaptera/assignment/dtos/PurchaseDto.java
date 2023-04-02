@@ -2,7 +2,8 @@ package kr.megaptera.assignment.dtos;
 
 import jakarta.persistence.*;
 import kr.megaptera.assignment.models.Address;
-import kr.megaptera.assignment.models.OrderItem;
+import kr.megaptera.assignment.models.Purchase;
+import kr.megaptera.assignment.models.PurchaseItem;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,13 +15,14 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderDto {
+public class PurchaseDto {
 
     private String id;
 
+    private String accountId;
+
     private String recipientName;
 
-    @Embedded
     private Address address;
 
     private String recipientPhone;
@@ -29,9 +31,11 @@ public class OrderDto {
 
     private LocalDateTime recipientDateTime;
 
-    private String userId;
-
-    private List<OrderItem> orderItems = new ArrayList<>();
+    public PurchaseDto(Purchase purchase) {
+        this(purchase.getId().toString(), purchase.getAccountId(), purchase.getRecipientName(),
+                purchase.getAddress(), purchase.getRecipientPhone(), purchase.getOrderDateTime(),
+                purchase.getRecipientDateTime());
+    }
 
 }
 

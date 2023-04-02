@@ -17,27 +17,26 @@ public class CartService {
 
     private final ItemRepository itemRepository;
 
-    public List<CartDto> getCarts(String userId) {
-        List<Cart> carts = cartRepository.findByUserId(userId);
+    public List<CartDto> getCarts(String accountId) {
+        List<Cart> carts = cartRepository.findByAccountId(accountId);
         return carts.stream().map(cart -> new CartDto(cart)).toList();
     }
 
-    public CartDto addItemCoCart(String userId, String itemId, Integer count) {
+    public CartDto addItemCoCart(String accountId, String itemId, Integer count) {
         Item item = itemRepository.findById(ItemId.of(itemId)).orElseThrow();
-        Cart cart = new Cart(item, count);
-
+        Cart cart = new Cart(accountId, item, count);
         cart = cartRepository.save(cart);
         return new CartDto(cart);
     }
 
-    public CartDto updateItemCoCart(String userId, String cartId, Integer count) {
+    public CartDto updateItemCoCart(String accountId, String cartId, Integer count) {
         Cart cart = cartRepository.findById(CartId.of(cartId)).orElseThrow();
         cart.update(count);
         cart = cartRepository.save(cart);
         return new CartDto(cart);
     }
 
-    public CartDto removeCart(String userId, String itemId) {
+    public CartDto removeCart(String accountId, String itemId) {
         Item item = itemRepository.findById(ItemId.of(itemId)).orElseThrow();
         Cart cart = cartRepository.findByItem(item);
         cartRepository.delete(cart);

@@ -2,6 +2,7 @@ package kr.megaptera.assignment.models;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDateTime;
 
@@ -14,16 +15,20 @@ public class Cart {
     @EmbeddedId
     private CartId id;
 
-    private Integer count;
-
-    private LocalDateTime updateDateTime;
+    @ColumnDefault("1")
+    private String accountId;
 
     @ManyToOne
     private Item item;
 
-    public Cart(Item item, Integer count) {
+    private Integer count;
+
+    private LocalDateTime updateDateTime;
+
+    public Cart(String accountId, Item item, Integer count) {
         this.id = CartId.generate();
         this.item = item;
+        this.accountId = accountId;
         this.count = count;
         this.updateDateTime = LocalDateTime.now();
     }

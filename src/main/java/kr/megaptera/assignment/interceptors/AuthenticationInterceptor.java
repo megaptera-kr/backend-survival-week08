@@ -14,7 +14,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
                              Object handler) {
 
         // 사용자 인증
-        request.setAttribute("userId", "1");
+        request.setAttribute("accountId", "1");
         return true;
     }
 
