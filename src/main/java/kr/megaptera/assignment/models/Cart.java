@@ -3,6 +3,8 @@ package kr.megaptera.assignment.models;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
 
@@ -23,19 +25,21 @@ public class Cart {
 
     private Integer count;
 
-    private LocalDateTime updateDateTime;
+    @CreatedDate
+    private LocalDateTime createdAt;
+
+    @LastModifiedDate
+    private LocalDateTime updatedAt;
 
     public Cart(String accountId, Item item, Integer count) {
         this.id = CartId.generate();
         this.item = item;
         this.accountId = accountId;
         this.count = count;
-        this.updateDateTime = LocalDateTime.now();
     }
 
     public void update(Integer count) {
         this.count = count;
-        this.updateDateTime = LocalDateTime.now();
     }
 
 }

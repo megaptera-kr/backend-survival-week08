@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.annotations.ColumnDefault;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
 
@@ -24,15 +26,18 @@ public class Review {
     @Basic(fetch = FetchType.EAGER)
     private String contents;
 
-    private LocalDateTime regDateTime;
-
     @ColumnDefault("1")
     private String accountId;
+
+    @CreatedDate
+    private LocalDateTime createdAt;
+
+    @LastModifiedDate
+    private LocalDateTime updatedAt;
 
     public Review(String contents, String accountId, Product product) {
         this.id = ReviewId.generate();
         this.contents = contents;
-        this.regDateTime = LocalDateTime.now();
         this.accountId = accountId;
         this.product = product;
     }

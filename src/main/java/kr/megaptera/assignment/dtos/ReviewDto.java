@@ -22,14 +22,10 @@ public class ReviewDto {
 
     private String contents;
 
-    private LocalDateTime regDateTime;
-
     private String accountId;
 
-
     public ReviewDto(Review review) {
-        this(review.getId().toString(), review.getProduct().getId().toString(),
-                review.getContents(), review.getRegDateTime(), review.getAccountId());
+        this(review.getId().toString(), review.getProduct().getId().toString(), review.getContents(), review.getAccountId());
     }
 
 }

@@ -27,14 +27,11 @@ public class PurchaseDto {
 
     private String recipientPhone;
 
-    private LocalDateTime orderDateTime;
-
-    private LocalDateTime recipientDateTime;
+    private LocalDateTime receiptedAt;
 
     public PurchaseDto(Purchase purchase) {
         this(purchase.getId().toString(), purchase.getAccountId(), purchase.getRecipientName(),
-                purchase.getAddress(), purchase.getRecipientPhone(), purchase.getOrderDateTime(),
-                purchase.getRecipientDateTime());
+                purchase.getAddress(), purchase.getRecipientPhone(), purchase.getReceiptedAt());
     }
 
 }

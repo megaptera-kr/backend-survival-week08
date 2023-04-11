@@ -1,32 +1,26 @@
 package kr.megaptera.assignment.models;
 
-import com.github.f4b6a3.tsid.TsidCreator;
+import io.hypersistence.tsid.TSID;
 import jakarta.persistence.Embeddable;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
+import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
 @Embeddable
-@NoArgsConstructor
-@AllArgsConstructor
-@EqualsAndHashCode
-public class PurchaseId implements Serializable {
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class PurchaseId extends EntityId {
 
-    private String id;
+    public PurchaseId(String id) {
+        super(id);
+    }
 
     public static PurchaseId of(String id) {
         return new PurchaseId(id);
     }
 
     public static PurchaseId generate() {
-        return new PurchaseId(TsidCreator.getTsid().toString());
-    }
-
-    @Override
-    public String toString() {
-        return id;
+        return new PurchaseId(newTsid());
     }
 
 }

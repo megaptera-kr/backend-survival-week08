@@ -29,8 +29,7 @@ public class PurchaseService {
 
     public Purchase requestPurchase(String accountId, PurchaseDto purchaseDto, List<CartDto> carts) {
         Purchase purchase = new Purchase(purchaseDto.getAccountId(), purchaseDto.getRecipientName(),
-                purchaseDto.getAddress(), purchaseDto.getRecipientPhone(),
-                purchaseDto.getOrderDateTime(), purchaseDto.getRecipientDateTime());
+                purchaseDto.getAddress(), purchaseDto.getRecipientPhone(), purchaseDto.getReceiptedAt());
 
         purchase = purchaseRepository.save(purchase);
 

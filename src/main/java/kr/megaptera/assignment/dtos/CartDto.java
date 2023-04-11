@@ -1,6 +1,7 @@
 package kr.megaptera.assignment.dtos;
 
 import kr.megaptera.assignment.models.Cart;
+import kr.megaptera.assignment.models.ItemId;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -18,11 +19,8 @@ public class CartDto {
 
     private Integer count;
 
-    private LocalDateTime updateDateTime;
-
     public CartDto(Cart cart) {
-        this(cart.getId().toString(), cart.getAccountId(), cart.getItem().getId().toString(),
-                cart.getCount(), cart.getUpdateDateTime());
+        this(cart.getId().toString(), cart.getAccountId(), cart.getItem().getId().toString(), cart.getCount());
     }
 
 }

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
 
@@ -26,7 +27,8 @@ public class PurchaseItem {
 
     private Integer count;
 
-    private LocalDateTime updateDateTime;
+    @CreatedDate
+    private LocalDateTime createdAt;
 
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
@@ -37,7 +39,6 @@ public class PurchaseItem {
         this.item = item;
         this.purchase = purchase;
         this.count = count;
-        this.updateDateTime = LocalDateTime.now();
         this.orderStatus = OrderStatus.PAYMENT;
     }
 

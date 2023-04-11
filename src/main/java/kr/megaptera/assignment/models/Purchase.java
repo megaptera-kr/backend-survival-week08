@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.annotations.ColumnDefault;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -30,22 +32,21 @@ public class Purchase {
 
     private String recipientPhone;
 
-    private LocalDateTime orderDateTime;
+    @CreatedDate
+    private LocalDateTime createdAt;
 
-    private LocalDateTime recipientDateTime;
+    private LocalDateTime receiptedAt;
 
     @OneToMany(mappedBy = "purchase", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PurchaseItem> purchaseItems = new ArrayList<>();
 
-    public Purchase(String accountId, String recipientName, Address address, String recipientPhone,
-                    LocalDateTime orderDateTime, LocalDateTime recipientDateTime) {
+    public Purchase(String accountId, String recipientName, Address address, String recipientPhone, LocalDateTime receiptedAt) {
         this.id = PurchaseId.generate();
         this.accountId = accountId;
         this.recipientName = recipientName;
         this.address = address;
         this.recipientPhone = recipientPhone;
-        this.orderDateTime = orderDateTime;
-        this.recipientDateTime = recipientDateTime;
+        this.receiptedAt = receiptedAt;
     }
 
 }
