@@ -1,6 +1,7 @@
 package kr.megaptera.assignment.dtos;
 
 public class LineItemUpdateDto {
+
     private Long quantity;
 
     public LineItemUpdateDto() {

@@ -1,6 +1,8 @@
 package kr.megaptera.assignment.applications;
 
+import com.sun.jdi.*;
 import kr.megaptera.assignment.dtos.*;
+import kr.megaptera.assignment.exceptions.*;
 import kr.megaptera.assignment.models.*;
 import kr.megaptera.assignment.repositories.*;
 import org.springframework.stereotype.*;
@@ -18,10 +20,16 @@ public class CreateLineItemService {
     }
 
     public void createlineItem(LineItemCreateDto lineItemCreateDto) {
+        validateQuantity(lineItemCreateDto);
         Product product =
-                productRepository.findById(ProductId.of(lineItemCreateDto.getProductId())).orElseThrow();
+                productRepository.findById(ProductId.of(lineItemCreateDto.getProductId())).orElseThrow(ProductNotFound::new);
         LineItem lineItem = new LineItem(product.getId(),product.getName(),lineItemCreateDto.getQuantity(),
                             product.getPrice() * lineItemCreateDto.getQuantity(),product.getPrice());
         lineItemRepository.save(lineItem);
+    }
+
+    private static void validateQuantity(LineItemCreateDto lineItemCreateDto) {
+        if(lineItemCreateDto.getQuantity()<1 || lineItemCreateDto.getQuantity()>9999)
+            throw new InvalidNumberException();
     }
 }

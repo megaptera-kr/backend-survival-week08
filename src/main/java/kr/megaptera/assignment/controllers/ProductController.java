@@ -2,6 +2,7 @@ package kr.megaptera.assignment.controllers;
 
 import kr.megaptera.assignment.applications.*;
 import kr.megaptera.assignment.dtos.*;
+import kr.megaptera.assignment.exceptions.*;
 import kr.megaptera.assignment.models.*;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
@@ -32,5 +33,11 @@ public class ProductController {
     @ResponseStatus(HttpStatus.CREATED)
     public void post(@RequestBody ProductCreateDto productCreateDto){
         createProductService.createProduct(productCreateDto);
+    }
+
+    @ExceptionHandler(ProductNotFound.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public String ProductNotFound(){
+        return "해당 상품이 없습네다.";
     }
 }

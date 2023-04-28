@@ -47,4 +47,10 @@ public class CartController {
     public String LineItemNotFound() {
         return"해당 물건이 없슴둥!";
     }
+
+    @ExceptionHandler(InvalidNumberException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String InvalidNumberException(){
+        return "유효하지 않은 숫자입니다.";
+    }
 }
