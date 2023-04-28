@@ -10,6 +10,7 @@ import java.util.*;
 
 @RestController
 @RequestMapping("/cart-line-items")
+@CrossOrigin
 public class CartController {
 
     private GetLineItemsService getLineItemsService;

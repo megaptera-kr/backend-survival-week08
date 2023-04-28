@@ -39,7 +39,9 @@ public class LineItem {
 
     public void update(Long quantity){
         this.quantity = quantity;
+        this.totalPrice = this.unitPrice * this.quantity;
     }
+
     public String getProductName() {
         return productName;
     }

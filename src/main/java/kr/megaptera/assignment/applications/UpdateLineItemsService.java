@@ -18,6 +18,10 @@ public class UpdateLineItemsService {
     public void updatelineItem(String id, LineItemUpdateDto lineItemUpdateDto) {
         LineItem lineItem = lineItemRepository.findById(id).orElseThrow(LineItemNotFound::new);
         lineItem.update(lineItemUpdateDto.getQuantity());
-        lineItemRepository.save(lineItem);
+        if(lineItem.getQuantity()<1)
+            lineItemRepository.delete(lineItem);
+        else
+            lineItemRepository.save(lineItem);
     }
+
 }

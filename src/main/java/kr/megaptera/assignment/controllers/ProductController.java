@@ -11,6 +11,7 @@ import java.util.*;
 
 @RestController
 @RequestMapping("/products")
+@CrossOrigin
 public class ProductController {
 
     private GetProductsService getProductsService;
