@@ -3,6 +3,8 @@ package kr.megaptera.assignment.presentations;
 import kr.megaptera.assignment.applications.carts.AddCartService;
 import kr.megaptera.assignment.applications.carts.GetCartItemsService;
 import kr.megaptera.assignment.applications.carts.UpdateCartService;
+import kr.megaptera.assignment.exceptions.CartItemNotFoundException;
+import kr.megaptera.assignment.exceptions.ProductNotFoundException;
 import kr.megaptera.assignment.presentations.dtos.carts.CartItemAddDto;
 import kr.megaptera.assignment.presentations.dtos.carts.CartItemUpdateDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,5 +42,10 @@ public class CartItemController {
             @PathVariable String id,
             @RequestBody CartItemUpdateDto reqBody){
         updateCartService.update(id, reqBody);
+    }
+
+    @ExceptionHandler(CartItemNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public void cartItemNotFound() {
     }
 }
