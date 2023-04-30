@@ -15,7 +15,7 @@ public class CartItem {
     @EmbeddedId
     private CartItemId id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "product_id")
     private Product product;
 

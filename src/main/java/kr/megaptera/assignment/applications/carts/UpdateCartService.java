@@ -21,7 +21,7 @@ public class UpdateCartService {
         }
 
         if(reqBody.getQuantity() == 0){
-            cartRepository.delete(cartItem);
+            cartRepository.deleteById(cartItem.getId());
         }
         else{
             cartItem.setQuantity(reqBody.getQuantity());

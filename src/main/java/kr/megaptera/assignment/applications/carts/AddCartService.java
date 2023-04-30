@@ -19,14 +19,20 @@ public class AddCartService {
     @Autowired
     private CartRepository cartRepository;
 
-    public void add(CartItemAddDto reqBody){
+    public void add(CartItemAddDto reqBody) {
         var productId = new ProductId(reqBody.getProductId());
         var product = productRepository.getReferenceById(productId);
-        if(product == null){
+        if (product == null) {
             throw new ProductNotFoundException();
         }
 
-        var cartItem = new CartItem(new CartItemId(), product, reqBody.getQuantity());
-        cartRepository.save(cartItem);
+        var cartItem = cartRepository.getReferenceByProduct(product);
+        if (cartItem == null) {
+            cartItem = new CartItem(new CartItemId(), product, reqBody.getQuantity());
+            cartRepository.save(cartItem);
+        } else {
+            cartItem.setQuantity(cartItem.getQuantity() + 1);
+            cartRepository.save(cartItem);
+        }
     }
 }

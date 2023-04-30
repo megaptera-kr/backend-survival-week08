@@ -29343,8 +29343,9 @@ const typeOfTest = (type)=>(thing)=>typeof thing === type;
  *
  * @returns {boolean} True if value is an FormData, otherwise false
  */ const isFormData = (thing)=>{
-    const pattern = "[object FormData]";
-    return thing && (typeof FormData === "function" && thing instanceof FormData || toString.call(thing) === pattern || isFunction(thing.toString) && thing.toString() === pattern);
+    let kind;
+    return thing && (typeof FormData === "function" && thing instanceof FormData || isFunction(thing.append) && ((kind = kindOf(thing)) === "formdata" || // detect form-data instance
+    kind === "object" && isFunction(thing.toString) && thing.toString() === "[object FormData]"));
 };
 /**
  * Determine if a value is a URLSearchParams object
@@ -29691,6 +29692,8 @@ const toJSONObject = (obj)=>{
     };
     return visit(obj, 0);
 };
+const isAsyncFn = kindOfTest("AsyncFunction");
+const isThenable = (thing)=>thing && (isObject(thing) || isFunction(thing)) && isFunction(thing.then) && isFunction(thing.catch);
 exports.default = {
     isArray,
     isArrayBuffer,
@@ -29740,7 +29743,9 @@ exports.default = {
     ALPHABET,
     generateString,
     isSpecCompliantForm,
-    toJSONObject
+    toJSONObject,
+    isAsyncFn,
+    isThenable
 };
 
 },{"./helpers/bind.js":"haRQb","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"haRQb":[function(require,module,exports) {
@@ -29809,10 +29814,15 @@ const validators = (0, _validatorJsDefault.default).validators;
             forcedJSONParsing: validators.transitional(validators.boolean),
             clarifyTimeoutError: validators.transitional(validators.boolean)
         }, false);
-        if (paramsSerializer !== undefined) (0, _validatorJsDefault.default).assertOptions(paramsSerializer, {
-            encode: validators.function,
-            serialize: validators.function
-        }, true);
+        if (paramsSerializer != null) {
+            if ((0, _utilsJsDefault.default).isFunction(paramsSerializer)) config.paramsSerializer = {
+                serialize: paramsSerializer
+            };
+            else (0, _validatorJsDefault.default).assertOptions(paramsSerializer, {
+                encode: validators.function,
+                serialize: validators.function
+            }, true);
+        }
         // Set config.method
         config.method = (config.method || this.defaults.method || "get").toLowerCase();
         let contextHeaders;
@@ -31993,6 +32003,8 @@ var _urlsearchParamsJs = require("./classes/URLSearchParams.js");
 var _urlsearchParamsJsDefault = parcelHelpers.interopDefault(_urlsearchParamsJs);
 var _formDataJs = require("./classes/FormData.js");
 var _formDataJsDefault = parcelHelpers.interopDefault(_formDataJs);
+var _blobJs = require("./classes/Blob.js");
+var _blobJsDefault = parcelHelpers.interopDefault(_blobJs);
 /**
  * Determine if we're running in a standard browser environment
  *
@@ -32031,7 +32043,7 @@ exports.default = {
     classes: {
         URLSearchParams: (0, _urlsearchParamsJsDefault.default),
         FormData: (0, _formDataJsDefault.default),
-        Blob
+        Blob: (0, _blobJsDefault.default)
     },
     isStandardBrowserEnv,
     isStandardBrowserWebWorkerEnv,
@@ -32045,7 +32057,7 @@ exports.default = {
     ]
 };
 
-},{"./classes/URLSearchParams.js":"5cIHE","./classes/FormData.js":"7i1jd","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"5cIHE":[function(require,module,exports) {
+},{"./classes/URLSearchParams.js":"5cIHE","./classes/FormData.js":"7i1jd","./classes/Blob.js":"8chF6","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"5cIHE":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _axiosURLSearchParamsJs = require("../../../helpers/AxiosURLSearchParams.js");
@@ -32057,7 +32069,13 @@ exports.default = typeof URLSearchParams !== "undefined" ? URLSearchParams : (0,
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 "use strict";
-exports.default = FormData;
+exports.default = typeof FormData !== "undefined" ? FormData : null;
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"8chF6":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+"use strict";
+exports.default = typeof Blob !== "undefined" ? Blob : null;
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"01RfH":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
@@ -32157,11 +32175,10 @@ function parseTokens(str) {
     while(match = tokensRE.exec(str))tokens[match[1]] = match[2];
     return tokens;
 }
-function isValidHeaderName(str) {
-    return /^[-_a-zA-Z]+$/.test(str.trim());
-}
-function matchHeaderValue(context, value, header, filter) {
+const isValidHeaderName = (str)=>/^[-_a-zA-Z0-9^`|~,!#$%&'*+.]+$/.test(str.trim());
+function matchHeaderValue(context, value, header, filter, isHeaderNameFilter) {
     if ((0, _utilsJsDefault.default).isFunction(filter)) return filter.call(this, value, header);
+    if (isHeaderNameFilter) value = header;
     if (!(0, _utilsJsDefault.default).isString(value)) return;
     if ((0, _utilsJsDefault.default).isString(filter)) return value.indexOf(filter) !== -1;
     if ((0, _utilsJsDefault.default).isRegExp(filter)) return filter.test(value);
@@ -32249,7 +32266,7 @@ class AxiosHeaders {
         let deleted = false;
         while(i--){
             const key = keys[i];
-            if (!matcher || matchHeaderValue(this, this[key], key, matcher)) {
+            if (!matcher || matchHeaderValue(this, this[key], key, matcher, true)) {
                 delete this[key];
                 deleted = true;
             }
@@ -32539,7 +32556,10 @@ exports.default = isXHRAdapterSupported && function(config) {
             if (config.cancelToken) config.cancelToken.unsubscribe(onCanceled);
             if (config.signal) config.signal.removeEventListener("abort", onCanceled);
         }
-        if ((0, _utilsJsDefault.default).isFormData(requestData) && ((0, _indexJsDefault.default).isStandardBrowserEnv || (0, _indexJsDefault.default).isStandardBrowserWebWorkerEnv)) requestHeaders.setContentType(false); // Let the browser set it
+        if ((0, _utilsJsDefault.default).isFormData(requestData)) {
+            if ((0, _indexJsDefault.default).isStandardBrowserEnv || (0, _indexJsDefault.default).isStandardBrowserWebWorkerEnv) requestHeaders.setContentType(false); // Let the browser set it
+            else requestHeaders.setContentType("multipart/form-data;", false); // mobile/desktop app frameworks
+        }
         let request = new XMLHttpRequest();
         // HTTP basic authentication
         if (config.auth) {
@@ -32920,7 +32940,7 @@ function mergeConfig(config1, config2) {
         validateStatus: mergeDirectKeys,
         headers: (a, b)=>mergeDeepProperties(headersToObject(a), headersToObject(b), true)
     };
-    (0, _utilsJsDefault.default).forEach(Object.keys(config1).concat(Object.keys(config2)), function computeConfigValue(prop) {
+    (0, _utilsJsDefault.default).forEach(Object.keys(Object.assign({}, config1, config2)), function computeConfigValue(prop) {
         const merge = mergeMap[prop] || mergeDeepProperties;
         const configValue = merge(config1[prop], config2[prop], prop);
         (0, _utilsJsDefault.default).isUndefined(configValue) && merge !== mergeDirectKeys || (config[prop] = configValue);
@@ -33007,7 +33027,7 @@ exports.default = {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "VERSION", ()=>VERSION);
-const VERSION = "1.3.2";
+const VERSION = "1.4.0";
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"45wzn":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
