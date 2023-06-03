@@ -49,8 +49,8 @@ public class CartController {
             @PathVariable String id,
             @RequestBody CartDto cartDto
     ) {
-        System.out.println("cartDto : " + cartDto);
-        System.out.println("id : " + id);
+        //System.out.println("cartDto : " + cartDto);
+        //System.out.println("id : " + id);
         cartService.updateQuantity(cartDto, id);
     }
 

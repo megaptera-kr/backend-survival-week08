@@ -43,7 +43,11 @@ public class CartService {
     }
 
     public void updateQuantity(CartDto cartDto, String id) {
-        Optional<Cart> cart = cartRepository.findById(ProductId.of(id));
-        cart.get().updateQuantity(cartDto.getQuantity());
+        if (cartDto.getQuantity() == 0) {
+            cartRepository.deleteById(ProductId.of(id));
+        } else {
+            Optional<Cart> cart = cartRepository.findById(ProductId.of(id));
+            cart.get().updateQuantity(cartDto.getQuantity());
+        }
     }
 }
