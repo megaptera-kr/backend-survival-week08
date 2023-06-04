@@ -1,14 +1,13 @@
-package com.example.demo.application.cart;
+package kr.megaptera.assignment.applications;
 
+import kr.megaptera.assignment.models.Cart;
+import kr.megaptera.assignment.models.CartId;
+import kr.megaptera.assignment.models.Product;
+import kr.megaptera.assignment.models.ProductId;
+import kr.megaptera.assignment.repositories.CartRepository;
+import kr.megaptera.assignment.repositories.ProductRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import com.example.demo.models.Cart;
-import com.example.demo.models.CartId;
-import com.example.demo.models.Product;
-import com.example.demo.models.ProductId;
-import com.example.demo.repositories.CartRepository;
-import com.example.demo.repositories.ProductRepository;
 
 @Service
 @Transactional

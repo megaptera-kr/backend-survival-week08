@@ -1,7 +1,6 @@
 package kr.megaptera.assignment.applications;
 
 import kr.megaptera.assignment.dtos.ProductCreateDto;
-import kr.megaptera.assignment.models.Product;
 import kr.megaptera.assignment.repositories.ProductRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

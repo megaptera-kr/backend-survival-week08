@@ -1,11 +1,10 @@
-package com.example.demo.models;
+package kr.megaptera.assignment.models;
 
-import java.util.Objects;
-
+import io.hypersistence.tsid.TSID;
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
 
-import io.hypersistence.tsid.TSID;
+import java.util.Objects;
 
 @MappedSuperclass
 public abstract class EntityId {

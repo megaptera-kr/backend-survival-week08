@@ -1,7 +1,7 @@
-package com.example.demo.dtos;
+package kr.megaptera.assignment.dtos;
 
 public record CreateProductDto(
-    String name,
-    Long price
+        String name,
+        Long price
 ) {
 }

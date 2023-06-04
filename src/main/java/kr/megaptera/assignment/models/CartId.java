@@ -1,4 +1,4 @@
-package com.example.demo.models;
+package kr.megaptera.assignment.models;
 
 import jakarta.persistence.Embeddable;
 

@@ -1,13 +1,13 @@
 package kr.megaptera.assignment.controllers;
 
-import kr.megaptera.assignment.applications.CreateCartItemService;
-import kr.megaptera.assignment.applications.GetCartItemsService;
-import kr.megaptera.assignment.applications.UpdateCartItemService;
-import kr.megaptera.assignment.dtos.CartItemCreateDto;
-import kr.megaptera.assignment.dtos.CartItemDto;
-import kr.megaptera.assignment.dtos.CartItemResponseDto;
-import kr.megaptera.assignment.dtos.CartItemUpdateDto;
-import kr.megaptera.assignment.exceptions.CartItemNotFound;
+import kr.megaptera.assignment.applications.AddProductToCartService;
+import kr.megaptera.assignment.applications.ChangeCartItemQuantityService;
+import kr.megaptera.assignment.applications.GetCartService;
+import kr.megaptera.assignment.dtos.AddCartLineItemDto;
+import kr.megaptera.assignment.dtos.CartDto;
+import kr.megaptera.assignment.dtos.ChangeCartLineItemDto;
+import kr.megaptera.assignment.models.LineItemId;
+import kr.megaptera.assignment.models.ProductId;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -20,46 +20,54 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/cart-line-items")
 @CrossOrigin
 public class CartLineItemController {
 
-    private final CreateCartItemService createCartItemService;
-    private final GetCartItemsService getCartItemsService;
-    private final UpdateCartItemService updateCartItemService;
+    private final GetCartService getCartService;
+    private final AddProductToCartService addProductToCartService;
+    private final ChangeCartItemQuantityService changeCartItemQuantityService;
 
-    public CartLineItemController(CreateCartItemService createCartItemService, GetCartItemsService getCartItemsService, UpdateCartItemService updateCartItemService) {
-        this.createCartItemService = createCartItemService;
-        this.getCartItemsService = getCartItemsService;
-        this.updateCartItemService = updateCartItemService;
+    public CartLineItemController(
+            GetCartService getCartService,
+            AddProductToCartService addProductToCartService,
+            ChangeCartItemQuantityService changeCartItemQuantityService) {
+        this.getCartService = getCartService;
+        this.addProductToCartService = addProductToCartService;
+        this.changeCartItemQuantityService = changeCartItemQuantityService;
     }
 
     @GetMapping
-    public CartItemResponseDto list() {
-        List<CartItemDto> cartItemDtos = getCartItemsService.getCartItemDtos();
-        System.out.println("cartItemDtos : " + cartItemDtos);
-        return new CartItemResponseDto(cartItemDtos);
+    public CartDto list() {
+        return getCartService.getCartDto();
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void create(@RequestBody CartItemCreateDto cartItemCreateDto) {
-        createCartItemService.createCartItem(cartItemCreateDto);
+    public void create(@RequestBody AddCartLineItemDto dto) {
+        ProductId productId = new ProductId(dto.productId());
+        int quantity = dto.quantity();
+
+        addProductToCartService.addProduct(productId, quantity);
     }
 
-    @PatchMapping("/{id}")
+    @PatchMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@PathVariable String id,
-                       @RequestBody CartItemUpdateDto cartItemUpdateDto) {
-        updateCartItemService.updateCartItemProdudctQuantity(id, cartItemUpdateDto);
+    public void update(
+            @PathVariable("id") String id,
+            @RequestBody ChangeCartLineItemDto dto) {
+        LineItemId lineItemId = new LineItemId(id);
+        int quantity = dto.quantity();
+
+        changeCartItemQuantityService.changeQuantity(lineItemId, quantity);
     }
 
-    @ExceptionHandler(CartItemNotFound.class)
+    @ExceptionHandler(NoSuchElementException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public String cartItemNotFound() {
-        return "해당 카트 상품을 찾을 수 없습니다.";
+    public String notFound() {
+        return "Not Found";
     }
 }

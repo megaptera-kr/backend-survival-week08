@@ -1,12 +1,10 @@
-package com.example.demo.application.product;
+package kr.megaptera.assignment.applications;
 
 import jakarta.transaction.Transactional;
-
+import kr.megaptera.assignment.models.Money;
+import kr.megaptera.assignment.models.Product;
+import kr.megaptera.assignment.repositories.ProductRepository;
 import org.springframework.stereotype.Service;
-
-import com.example.demo.models.Money;
-import com.example.demo.models.Product;
-import com.example.demo.repositories.ProductRepository;
 
 @Service
 @Transactional

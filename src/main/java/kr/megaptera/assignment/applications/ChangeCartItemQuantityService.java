@@ -1,13 +1,11 @@
-package com.example.demo.application.cart;
+package kr.megaptera.assignment.applications;
 
 import jakarta.transaction.Transactional;
-
+import kr.megaptera.assignment.models.Cart;
+import kr.megaptera.assignment.models.CartId;
+import kr.megaptera.assignment.models.LineItemId;
+import kr.megaptera.assignment.repositories.CartRepository;
 import org.springframework.stereotype.Service;
-
-import com.example.demo.models.Cart;
-import com.example.demo.models.CartId;
-import com.example.demo.models.LineItemId;
-import com.example.demo.repositories.CartRepository;
 
 @Service
 @Transactional

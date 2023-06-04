@@ -1,6 +1,6 @@
-package com.example.demo.dtos;
+package kr.megaptera.assignment.dtos;
 
 public record ChangeCartLineItemDto(
-    int quantity
+        int quantity
 ) {
 }

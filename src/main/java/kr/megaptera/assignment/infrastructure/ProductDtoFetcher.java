@@ -1,6 +1,6 @@
-package com.example.demo.infrastructure;
+package kr.megaptera.assignment.infrastructure;
 
-import com.example.demo.dtos.ProductListDto;
+import kr.megaptera.assignment.dtos.ProductListDto;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
@@ -17,19 +17,19 @@ public class ProductDtoFetcher {
 
     public ProductListDto fetchProductListDto() {
         String sql = """
-            SELECT *
-            FROM products
-            ORDER BY products.id DESC
-            """;
+                SELECT *
+                FROM product
+                ORDER BY product.id DESC
+                """;
 
         List<ProductListDto.ProductDto> productDtos = jdbcTemplate.query(
-            sql,
-            (ResultSet resultSet, int rowNum) ->
-                new ProductListDto.ProductDto(
-                    resultSet.getString("id"),
-                    resultSet.getString("name"),
-                    resultSet.getLong("price")
-                )
+                sql,
+                (ResultSet resultSet, int rowNum) ->
+                        new ProductListDto.ProductDto(
+                                resultSet.getString("id"),
+                                resultSet.getString("name"),
+                                resultSet.getLong("price")
+                        )
         );
 
         return new ProductListDto(productDtos);

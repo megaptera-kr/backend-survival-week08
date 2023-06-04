@@ -1,7 +1,5 @@
 package kr.megaptera.assignment.controllers;
 
-import kr.megaptera.assignment.applications.CreateProductService;
-import kr.megaptera.assignment.applications.GetProductsService;
 import kr.megaptera.assignment.dtos.ProductCreateDto;
 import kr.megaptera.assignment.dtos.ProductDto;
 import org.junit.jupiter.api.DisplayName;

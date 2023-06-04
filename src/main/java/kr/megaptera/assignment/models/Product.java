@@ -1,6 +1,4 @@
-package com.example.demo.models;
-
-import java.time.LocalDateTime;
+package kr.megaptera.assignment.models;
 
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Column;
@@ -8,9 +6,10 @@ import jakarta.persistence.Embedded;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
-
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "products")

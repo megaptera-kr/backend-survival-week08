@@ -1,7 +1,7 @@
-package com.example.demo.application.product;
+package kr.megaptera.assignment.applications;
 
-import com.example.demo.dtos.ProductListDto;
-import com.example.demo.infrastructure.ProductDtoFetcher;
+import kr.megaptera.assignment.dtos.ProductListDto;
+import kr.megaptera.assignment.infrastructure.ProductDtoFetcher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

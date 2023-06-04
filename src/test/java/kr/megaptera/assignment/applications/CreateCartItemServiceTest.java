@@ -1,9 +1,6 @@
 package kr.megaptera.assignment.applications;
 
 import kr.megaptera.assignment.dtos.CartItemCreateDto;
-import kr.megaptera.assignment.models.CartItem;
-import kr.megaptera.assignment.models.Product;
-import kr.megaptera.assignment.models.ProductId;
 import kr.megaptera.assignment.repositories.CartItemRepository;
 import kr.megaptera.assignment.repositories.ProductRepository;
 import org.junit.jupiter.api.BeforeEach;

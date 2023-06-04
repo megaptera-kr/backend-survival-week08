@@ -1,4 +1,4 @@
-package com.example.demo.dtos;
+package kr.megaptera.assignment.dtos;
 
 import java.util.List;
 
@@ -14,9 +14,9 @@ public class ProductListDto {
     }
 
     public record ProductDto(
-        String id,
-        String name,
-        Long price
+            String id,
+            String name,
+            Long price
     ) {
     }
 }

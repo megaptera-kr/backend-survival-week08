@@ -1,7 +1,7 @@
-package com.example.demo.dtos;
+package kr.megaptera.assignment.dtos;
 
 public record AddCartLineItemDto(
-    String productId,
-    int quantity
+        String productId,
+        int quantity
 ) {
 }
