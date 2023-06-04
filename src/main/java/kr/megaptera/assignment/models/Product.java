@@ -2,9 +2,10 @@ package kr.megaptera.assignment.models;
 
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "product")
 public class Product {
     @EmbeddedId
     private ProductId id;
