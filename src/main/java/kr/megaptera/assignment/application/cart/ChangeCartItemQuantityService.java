@@ -1,4 +1,5 @@
-package kr.megaptera.assignment.applications;
+package kr.megaptera.assignment.application.cart;
+
 
 import jakarta.transaction.Transactional;
 import kr.megaptera.assignment.models.Cart;

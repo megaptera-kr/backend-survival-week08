@@ -18,8 +18,8 @@ public class ProductDtoFetcher {
     public ProductListDto fetchProductListDto() {
         String sql = """
                 SELECT *
-                FROM product
-                ORDER BY product.id DESC
+                FROM products
+                ORDER BY products.id DESC
                 """;
 
         List<ProductListDto.ProductDto> productDtos = jdbcTemplate.query(

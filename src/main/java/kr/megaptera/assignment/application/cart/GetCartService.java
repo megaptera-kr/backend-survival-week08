@@ -1,4 +1,5 @@
-package kr.megaptera.assignment.applications;
+package kr.megaptera.assignment.application.cart;
+
 
 import kr.megaptera.assignment.dtos.CartDto;
 import kr.megaptera.assignment.infrastructure.CartDtoFetcher;

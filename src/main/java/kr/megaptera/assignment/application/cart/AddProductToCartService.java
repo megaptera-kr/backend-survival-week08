@@ -1,4 +1,4 @@
-package kr.megaptera.assignment.applications;
+package kr.megaptera.assignment.application.cart;
 
 import kr.megaptera.assignment.models.Cart;
 import kr.megaptera.assignment.models.CartId;

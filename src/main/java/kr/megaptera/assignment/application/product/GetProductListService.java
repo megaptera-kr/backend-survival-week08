@@ -1,4 +1,5 @@
-package kr.megaptera.assignment.applications;
+package kr.megaptera.assignment.application.product;
+
 
 import kr.megaptera.assignment.dtos.ProductListDto;
 import kr.megaptera.assignment.infrastructure.ProductDtoFetcher;

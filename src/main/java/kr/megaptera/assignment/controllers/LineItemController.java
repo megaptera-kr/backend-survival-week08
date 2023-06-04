@@ -1,8 +1,8 @@
 package kr.megaptera.assignment.controllers;
 
-import kr.megaptera.assignment.applications.AddProductToCartService;
-import kr.megaptera.assignment.applications.ChangeCartItemQuantityService;
-import kr.megaptera.assignment.applications.GetCartService;
+import kr.megaptera.assignment.application.cart.AddProductToCartService;
+import kr.megaptera.assignment.application.cart.ChangeCartItemQuantityService;
+import kr.megaptera.assignment.application.cart.GetCartService;
 import kr.megaptera.assignment.dtos.AddCartLineItemDto;
 import kr.megaptera.assignment.dtos.CartDto;
 import kr.megaptera.assignment.dtos.ChangeCartLineItemDto;
@@ -23,15 +23,14 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.NoSuchElementException;
 
 @RestController
-@RequestMapping("/cart-line-items")
+@RequestMapping("cart-line-items")
 @CrossOrigin
-public class CartLineItemController {
-
+public class LineItemController {
     private final GetCartService getCartService;
     private final AddProductToCartService addProductToCartService;
     private final ChangeCartItemQuantityService changeCartItemQuantityService;
 
-    public CartLineItemController(
+    public LineItemController(
             GetCartService getCartService,
             AddProductToCartService addProductToCartService,
             ChangeCartItemQuantityService changeCartItemQuantityService) {
