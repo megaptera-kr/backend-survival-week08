@@ -1,10 +1,14 @@
 package kr.megaptera.assignment.models;
 
 import com.github.f4b6a3.tsid.TsidCreator;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
 
 import java.util.Objects;
 
+@Embeddable
 public class CartItemId {
+    @Column(name = "cart_item_id")
     private String value;
 
     public CartItemId() {

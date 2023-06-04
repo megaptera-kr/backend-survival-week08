@@ -12,7 +12,7 @@ public class Cart {
     @EmbeddedId
     private CartId cartId;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CartItem> cartItems;
 
     public Cart() {
