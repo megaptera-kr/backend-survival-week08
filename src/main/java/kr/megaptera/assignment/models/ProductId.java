@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Embeddable
-public class ProductId implements Serializable  {
+public class ProductId implements Serializable {
     @Column(name = "id")
     private String value;
 
@@ -42,8 +42,6 @@ public class ProductId implements Serializable  {
 
     @Override
     public String toString() {
-        return "ProductId{" +
-                "value='" + value + '\'' +
-                '}';
+        return value;
     }
 }
