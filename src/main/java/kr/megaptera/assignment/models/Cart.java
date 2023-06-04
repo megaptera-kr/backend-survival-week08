@@ -1,43 +1,45 @@
-package kr.megaptera.assignment.models;
+package com.example.demo.models;
 
-import com.github.f4b6a3.tsid.TsidCreator;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OrderBy;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-
 @Entity
-@Table(name = "cart")
+@Table(name = "carts")
 public class Cart {
     @EmbeddedId
-    private CartId id;
+    private CartId cartId;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "cart_id")
     @OrderBy("id")
-    private List<CartItem> cartItems;
+    private List<LineItem> lineItems = new ArrayList<>();
 
-    public Cart() {
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
+
+    private Cart() {
     }
 
-    public Cart(CartId id, List<CartItem> cartItems) {
-        this.id = id;
-        this.cartItems = cartItems;
+    public Cart(CartId cartId) {
+        this.cartId = cartId;
     }
 
-    public static CartId of(String value) {
-        return new CartId(value);
+    public Cart(CartId cartId, List<LineItem> lineItems) {
+        this.cartId = cartId;
+        this.lineItems = lineItems;
     }
 
-    public static CartId generate() {
-        return new CartId(TsidCreator.getTsid().toString());
+    public static Cart create() {
+        return new Cart(CartId.generate());
     }
 
     public void addProduct(Product product, int quantity) {
@@ -45,7 +47,7 @@ public class Cart {
             return;
         }
 
-        Optional<CartItem> found = findLineItem(product.id());
+        Optional<LineItem> found = findLineItem(product.id());
 
         if (found.isPresent()) {
             LineItem lineItem = found.get();
@@ -58,40 +60,34 @@ public class Cart {
         lineItems.add(lineItem);
     }
 
-//    public void removeItem(Product product) {
-//        cartItems.removeIf(item -> item.getProduct().getId().equals(product.getId()));
-//    }
+    public void changeLineItemQuantity(LineItemId lineItemId, int quantity) {
+        LineItem lineItem = findLineItem(lineItemId).get();
 
-    public void updateQuantity(Product product, int quantity) {
-        Optional<CartItem> existingItem = cartItems.stream()
-                .filter(item -> item.product().id().equals(product.id()))
-                .findFirst();
-
-        if (existingItem.isPresent()) {
-            CartItem item = existingItem.get();
-            item.updateQuantity(quantity);
+        if (quantity <= 0) {
+            lineItems.remove(lineItem);
+            return;
         }
+
+        lineItem.changeQuantity(quantity);
     }
 
-    public List<CartItem> getItems() {
-        return cartItems;
+    public int lineItemsSize() {
+        return lineItems.size();
     }
 
-    public Long getTotalPrice() {
-        return cartItems.stream()
-                .mapToLong(item -> item.product().price() * item.quantity())
-                .sum();
+    public LineItem lineItem(int index) {
+        return lineItems.get(index);
     }
 
-    public Optional<CartItem> findLineItem(ProductId productId) {
-        return cartItems.stream()
-                .filter(item -> item.sameProduct(productId))
-                .findFirst();
+    public Optional<LineItem> findLineItem(ProductId productId) {
+        return lineItems.stream()
+            .filter(item -> item.sameProduct(productId))
+            .findFirst();
     }
 
-    public Optional<CartItem> findLineItem(CartItemId lineItemId) {
-        return cartItems.stream()
-                .filter(item -> item.id().equals(lineItemId))
-                .findFirst();
+    public Optional<LineItem> findLineItem(LineItemId lineItemId) {
+        return lineItems.stream()
+            .filter(item -> item.id().equals(lineItemId))
+            .findFirst();
     }
 }

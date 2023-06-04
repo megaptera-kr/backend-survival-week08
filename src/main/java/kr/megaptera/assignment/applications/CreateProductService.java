@@ -1,25 +1,27 @@
-package kr.megaptera.assignment.applications;
+package com.example.demo.application.product;
 
-import kr.megaptera.assignment.dtos.ProductCreateDto;
-import kr.megaptera.assignment.models.Product;
-import kr.megaptera.assignment.repositories.ProductRepository;
+import jakarta.transaction.Transactional;
+
 import org.springframework.stereotype.Service;
 
-@Service
-public class CreateProductService {
+import com.example.demo.models.Money;
+import com.example.demo.models.Product;
+import com.example.demo.repositories.ProductRepository;
 
+@Service
+@Transactional
+public class CreateProductService {
     private final ProductRepository productRepository;
 
     public CreateProductService(ProductRepository productRepository) {
         this.productRepository = productRepository;
     }
 
-    public void createProduct(ProductCreateDto productCreateDto) {
-        Product post = new Product(
-                productCreateDto.getName(),
-                productCreateDto.getPrice()
-        );
+    public Product createProduct(String name, Money price) {
+        Product product = Product.create(name, price);
 
-        productRepository.save(post);
+        productRepository.save(product);
+
+        return product;
     }
 }
