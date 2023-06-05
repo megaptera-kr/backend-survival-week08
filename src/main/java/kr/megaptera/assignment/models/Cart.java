@@ -79,13 +79,13 @@ public class Cart {
         return lineItems.get(index);
     }
 
-    private Optional<LineItem> findLineItem(LineItemId lineItemId) {
+    public Optional<LineItem> findLineItem(LineItemId lineItemId) {
         return lineItems.stream()
                 .filter(item -> item.id().equals(lineItemId))
                 .findFirst();
     }
 
-    private Optional<LineItem> findLineItem(ProductId productId) {
+    public Optional<LineItem> findLineItem(ProductId productId) {
         return lineItems.stream()
                 .filter(item -> item.sameProduct(productId))
                 .findFirst();
