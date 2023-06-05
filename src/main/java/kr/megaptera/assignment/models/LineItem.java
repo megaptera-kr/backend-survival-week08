@@ -28,7 +28,7 @@ public class LineItem {
     private Money totalPrice;
 
     @CreationTimestamp
-    private LineItemId createdAt;
+    private LocalDateTime createdAt;
 
     @UpdateTimestamp
     private LocalDateTime updatedAt;

@@ -1,6 +1,7 @@
 package kr.megaptera.assignment.models;
 
 import com.github.f4b6a3.tsid.Tsid;
+import com.github.f4b6a3.tsid.TsidCreator;
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
 
@@ -18,7 +19,7 @@ public abstract class EntityId {
     }
 
     protected static String newTsid() {
-        return newTsid().toString();
+        return TsidCreator.getTsid().toString();
     }
 
     @Override
