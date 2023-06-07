@@ -1,5 +1,6 @@
 package kr.megaptera.assignment.models.cart;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
@@ -11,6 +12,7 @@ public class Item {
     @EmbeddedId
     private ItemId id;
 
+    @Column(length = 1000)
     private Product product;
 
     @Embedded
