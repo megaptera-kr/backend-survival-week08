@@ -1,7 +1,6 @@
 package kr.megaptera.assignment.dtos;
 
-import kr.megaptera.assignment.models.lineItems.Item;
-import kr.megaptera.assignment.models.products.Product;
+import kr.megaptera.assignment.models.cart.Item;
 
 public class ItemDto {
 
@@ -26,16 +25,12 @@ public class ItemDto {
         this.unitPrice = unitPrice;
     }
 
-    public ItemDto(Product product, long quantity) {
-        this.id = product.getId().getId();
-        this.productName = product.getName().getName();
-        this.quantity = quantity;
-        this.unitPrice = product.getPrice().getValue();
-        this.totalPrice = this.unitPrice * this.quantity;
-    }
-
     public ItemDto(Item item) {
-        this.id = item.getProduct().getId().getId();
+        this.id = item.getProduct().id().getId();
+        this.productName = item.getProduct().name().getName();
+        this.quantity = item.getQuantity().getValue();
+        this.unitPrice = item.getProduct().price().getValue();
+        this.totalPrice = this.unitPrice * this.quantity;
     }
 
     public String getId() {
