@@ -1,6 +1,5 @@
-package kr.megaptera.assignment.models.prices;
+package kr.megaptera.assignment.models.products;
 
-import kr.megaptera.assignment.models.products.Price;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
