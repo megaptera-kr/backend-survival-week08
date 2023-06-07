@@ -4,8 +4,11 @@ import jakarta.persistence.Embedded;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 
+import java.io.Serializable;
+import java.util.Objects;
+
 @Entity
-public class Product {
+public class Product implements Serializable {
 
     @EmbeddedId
     private ProductId id;
@@ -16,15 +19,15 @@ public class Product {
     @Embedded
     private Price price;
 
-    public ProductId getId() {
+    public ProductId id() {
         return id;
     }
 
-    public ProductName getName() {
+    public ProductName name() {
         return name;
     }
 
-    public Price getPrice() {
+    public Price price() {
         return price;
     }
 
@@ -41,5 +44,17 @@ public class Product {
         this.id = new ProductId();
         this.name = name;
         this.price = price;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Product product)) return false;
+        return Objects.equals(id, product.id) && Objects.equals(name, product.name) && Objects.equals(price, product.price);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, price);
     }
 }

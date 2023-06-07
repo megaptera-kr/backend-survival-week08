@@ -4,16 +4,21 @@ import com.github.f4b6a3.tsid.TsidCreator;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 @Embeddable
-public class ProductId {
+public class ProductId implements Serializable {
 
     @Column(name = "id")
-    private final String id;
+    private String id;
 
     public ProductId() {
         this.id = generate();
+    }
+
+    public static ProductId of(String id) {
+        return new ProductId(id);
     }
 
     public ProductId(String id) {

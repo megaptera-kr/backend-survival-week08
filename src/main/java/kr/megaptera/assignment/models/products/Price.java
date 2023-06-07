@@ -3,15 +3,22 @@ package kr.megaptera.assignment.models.products;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 @Embeddable
-public class Price {
+public class Price implements Serializable {
 
     @Column(name = "price")
-    private final long value;
+    private long value;
+
+    private Price() {
+    }
 
     public Price(long value) {
+        if (value < 0) {
+            throw new IllegalArgumentException();
+        }
         this.value = value;
     }
 
