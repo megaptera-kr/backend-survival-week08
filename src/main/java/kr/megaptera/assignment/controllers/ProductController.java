@@ -2,9 +2,9 @@ package kr.megaptera.assignment.controllers;
 
 import kr.megaptera.assignment.application.CreateProductService;
 import kr.megaptera.assignment.application.GetProductsService;
+import kr.megaptera.assignment.dtos.ProductCreateDto;
 import kr.megaptera.assignment.dtos.ProductGetDto;
 import kr.megaptera.assignment.dtos.ProductListDto;
-import kr.megaptera.assignment.dtos.ProductPostDto;
 import kr.megaptera.assignment.exceptions.ProductNotFound;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -35,9 +35,9 @@ public class ProductController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ProductGetDto postProduct(
-            @RequestBody ProductPostDto productPostDto
+            @RequestBody ProductCreateDto productCreateDto
     ) {
-        return createProductService.createProduct(productPostDto);
+        return createProductService.createProduct(productCreateDto);
     }
 
     @ExceptionHandler(ProductNotFound.class)

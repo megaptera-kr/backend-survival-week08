@@ -1,15 +1,15 @@
 package kr.megaptera.assignment.dtos;
 
-public class ProductPostDto {
+public class ProductCreateDto {
 
     private String name;
 
     private Long price;
 
-    public ProductPostDto() {
+    public ProductCreateDto() {
     }
 
-    public ProductPostDto(String name, Long price) {
+    public ProductCreateDto(String name, Long price) {
         this.name = name;
         this.price = price;
     }
