@@ -6,6 +6,10 @@ import jakarta.persistence.Embedded;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "products")
@@ -15,6 +19,12 @@ public class Product {
 
     @Column(name = "name")
     private String name;
+
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
 
     @Embedded
     @AttributeOverride(name = "value", column = @Column(name = "price"))
@@ -29,7 +39,7 @@ public class Product {
         this.price = price;
     }
 
-    public static Product create(String name, Money price){
+    public static Product create(String name, Money price) {
         return new Product(ProductId.generate(), name, price);
     }
 
