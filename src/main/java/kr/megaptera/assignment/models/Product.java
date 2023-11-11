@@ -22,4 +22,16 @@ public class Product {
         this.name = name;
         this.price = price;
     }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Long getPrice() {
+        return price;
+    }
 }
