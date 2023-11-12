@@ -11,13 +11,13 @@ public class Product {
     UUID id;
     @Embedded
     Name name;
-    @Column
-    Long price;
+    @Embedded
+    Price price;
 
     private Product() {
     }
 
-    public Product(Name name, Long price) {
+    public Product(Name name, Price price) {
         this.name = name;
         this.price = price;
     }
@@ -31,6 +31,6 @@ public class Product {
     }
 
     public Long getPrice() {
-        return price;
+        return price.getValue();
     }
 }
