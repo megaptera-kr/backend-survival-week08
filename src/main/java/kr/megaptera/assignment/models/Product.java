@@ -9,15 +9,15 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     UUID id;
-    @Column
-    String name;
+    @Embedded
+    Name name;
     @Column
     Long price;
 
     private Product() {
     }
 
-    public Product(String name, Long price) {
+    public Product(Name name, Long price) {
         this.name = name;
         this.price = price;
     }
@@ -27,7 +27,7 @@ public class Product {
     }
 
     public String getName() {
-        return name;
+        return name.toString();
     }
 
     public Long getPrice() {
