@@ -1,4 +1,4 @@
-package kr.megaptera.assignment.product.models;
+package kr.megaptera.assignment.product.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
@@ -12,6 +12,10 @@ public class Money {
 
     public Money() {
 
+    }
+
+    public Long getValue() {
+        return value;
     }
 
     public Money(Long value) {

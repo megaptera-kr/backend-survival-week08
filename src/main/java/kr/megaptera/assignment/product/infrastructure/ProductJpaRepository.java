@@ -1,8 +1,8 @@
 package kr.megaptera.assignment.product.infrastructure;
 
-import kr.megaptera.assignment.product.domain.ProductEntity;
-import kr.megaptera.assignment.product.dto.ProductResponse;
+import kr.megaptera.assignment.product.domain.Product;
+import kr.megaptera.assignment.product.domain.ProductId;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ProductRepository extends JpaRepository<ProductEntity,String> {
+public interface ProductJpaRepository extends JpaRepository<Product, ProductId> {
 }

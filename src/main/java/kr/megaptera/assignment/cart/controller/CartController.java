@@ -1,36 +1,47 @@
-package kr.megaptera.assignment.product.controller;
+package kr.megaptera.assignment.cart.controller;
 
+import kr.megaptera.assignment.cart.domain.Cart;
+import kr.megaptera.assignment.cart.domain.LineItemId;
 import kr.megaptera.assignment.cart.dto.CartLineItemRequest;
 import kr.megaptera.assignment.cart.dto.CartResponse;
-import org.springframework.http.ResponseEntity;
+import kr.megaptera.assignment.cart.dto.UpdateQuantityRequest;
+import kr.megaptera.assignment.cart.service.CartService;
+import kr.megaptera.assignment.product.domain.ProductId;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/cart-line-items")
 @CrossOrigin
 public class CartController {
-    // 장바구니 조회
+    private final CartService cartService;
+
+    @Autowired
+    public CartController(CartService cartService) {
+        this.cartService = cartService;
+    }
+
     @GetMapping
-    public ResponseEntity<?> getCartLineItems() {
-        // 장바구니 조회 로직 구현
-        // 예시로 빈 목록 반환
-        return ResponseEntity.ok().body(new CartResponse());
+    @ResponseStatus(HttpStatus.OK)
+    public CartResponse getCartLineItems() {
+        return cartService.listItems();
     }
 
-    // 장바구니 생성
     @PostMapping
-    public ResponseEntity<?> addCartLineItem(@RequestBody CartLineItemRequest newItem) {
-        // 장바구니 추가 로직 구현
-        // 장바구니 항목 추가 후 상태 코드 201 반환
-        return ResponseEntity.status(201).build();
+    @ResponseStatus(HttpStatus.CREATED)
+    public void addCartLineItem(@RequestBody CartLineItemRequest request) {
+        ProductId productId = new ProductId(request.productId());
+        cartService.addProduct(productId, request.quantity());
     }
 
-    // 장바구니 상품 수량 변경
     @PatchMapping("/{id}")
-    public ResponseEntity<?> updateCartLineItemQuantity(@PathVariable String id, @RequestBody UpdateQuantityRequest updateRequest) {
-        // 수량 변경 로직 구현
-        // 수량 변경 후 상태 코드 204 반환
-        return ResponseEntity.status(204).build();
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void updateCartLineItemQuantity(@PathVariable String id, @RequestBody UpdateQuantityRequest updateRequest) {
+        LineItemId lineItemId = new LineItemId(id);
+        cartService.changeQuantity(lineItemId,updateRequest.quantity());
     }
 
 }

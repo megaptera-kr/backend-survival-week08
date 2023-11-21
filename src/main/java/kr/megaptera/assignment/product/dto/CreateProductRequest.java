@@ -1,2 +1,8 @@
-package kr.megaptera.assignment.product.dto;public class CreateProductRequest {
+package kr.megaptera.assignment.product.dto;
+
+public record CreateProductRequest (
+    String name,
+    Long price
+) {
+
 }

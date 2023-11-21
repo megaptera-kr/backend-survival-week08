@@ -1,87 +1,67 @@
 package kr.megaptera.assignment.product.domain;
 
-import com.github.f4b6a3.tsid.Tsid;
-import com.github.f4b6a3.tsid.TsidCreator;
-import jakarta.persistence.*;
+import java.time.LocalDateTime;
+
+import jakarta.persistence.AttributeOverride;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
+import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+
 import kr.megaptera.assignment.product.dto.ProductResponse;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import java.time.LocalDateTime;
 @Entity
 @Table(name = "products")
-public class ProductEntity {
-        @Id
-        @Column(name = "id")
-        private String id;
+public class Product {
+    @EmbeddedId
+    private ProductId id;
 
-        @Column(name = "name")
-        private String name;
+    @Column(name = "name")
+    private String name;
 
-        @CreationTimestamp
-        private LocalDateTime createdAt;
+    @CreationTimestamp
+    private LocalDateTime createdAt;
 
-        @UpdateTimestamp
-        private LocalDateTime updatedAt;
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
 
-        @Embedded
-        @AttributeOverride(name = "value", column = @Column(name = "price"))
-        private Money price;
+    @Embedded
+    @AttributeOverride(name = "value", column = @Column(name = "price"))
+    private Money price;
 
-        public ProductEntity() {
-        }
-
-        public ProductEntity(String id, String name, Money price) {
-            this.id = id;
-            this.name = name;
-            this.price = price;
-        }
-
-        public static ProductEntity create(String name, Money price) {
-            return new ProductEntity(TsidCreator.getTsid256().toString(), name, price);
-        }
-
-    public static ProductResponse toResponse(ProductEntity entity) {
-        return new ProductResponse(entity.getId(), entity.getName(), entity.getPrice().getValue());
+    public Product() {
     }
 
-    public String getId() {
+    public Product(ProductId id, String name, Money price) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+    }
+
+    public static Product create(String name, Money price) {
+        return new Product(ProductId.generate(), name, price);
+    }
+
+    public ProductId id() {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getName() {
+    public String name() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    public Money getPrice() {
+    public Money price() {
         return price;
     }
 
-    public void setPrice(Money price) {
-        this.price = price;
+    public ProductResponse toResponse() {
+        return new ProductResponse(
+                this.id.toString(), // ID를 문자열로 변환
+                this.name,
+                this.price.getValue() // Money 객체를 적절한 문자열 표현으로 변환
+        );
     }
 }

@@ -1,127 +1,115 @@
 package kr.megaptera.assignment.cart.domain;
 
-import com.github.f4b6a3.tsid.TsidCreator;
 import jakarta.persistence.*;
-import kr.megaptera.assignment.cart.dto.CartItem;
-import kr.megaptera.assignment.cart.dto.CartLineItemRequest;
-import kr.megaptera.assignment.product.domain.ProductEntity;
+import kr.megaptera.assignment.cart.domain.CartId;
+import kr.megaptera.assignment.cart.domain.LineItem;
+import kr.megaptera.assignment.cart.domain.LineItemId;
+import kr.megaptera.assignment.cart.dto.CartResponse;
+import kr.megaptera.assignment.cart.dto.LineItemResponse;
+import kr.megaptera.assignment.product.domain.Product;
+import kr.megaptera.assignment.product.domain.ProductId;
+import kr.megaptera.assignment.product.dto.ProductResponse;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "carts")
-public class CartEntity {
-    @Id
-    private String id;
+public class Cart {
+    @EmbeddedId
+    private CartId cartId;
 
-    @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "cart_id")
-    private List<CartItem> cartItems = new ArrayList<>();
+    @OrderBy("id")
+    private List<LineItem> lineItems = new ArrayList<>();
 
-    @Column(nullable = false)
-    private Long quantity;
+    @CreationTimestamp
+    private LocalDateTime createdAt;
 
-    @Column(nullable = false)
-    private Long totalPrice;
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
 
-    @Column(nullable = false)
-    private Long unitPrice;
-
-    public CartEntity(String name) {
-        this.id = id;
+    public Cart() {
     }
 
-    public String getId() {
-        return id;
+    public Cart(CartId cartId) {
+        this.cartId = cartId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public Cart(CartId cartId, List<LineItem> lineItems) {
+        this.cartId = cartId;
+        this.lineItems = lineItems;
     }
 
-    public List<ProductEntity> getProducts() {
-        return products;
-    }
-
-    public void setProducts(List<ProductEntity> products) {
-        this.products = products;
-    }
-
-    public Long getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Long quantity) {
-        this.quantity = quantity;
-    }
-
-    public Long getTotalPrice() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(Long totalPrice) {
-        this.totalPrice = totalPrice;
-    }
-
-    public Long getUnitPrice() {
-        return unitPrice;
-    }
-
-    public void setUnitPrice(Long unitPrice) {
-        this.unitPrice = unitPrice;
-    }
-
-    public CartEntity() {
-    }
-
-    public CartEntity(String id, List<ProductEntity> products, Long quantity, Long totalPrice, Long unitPrice) {
-        this.id = id;
-        this.products = products;
-        this.quantity = quantity;
-        this.totalPrice = totalPrice;
-        this.unitPrice = unitPrice;
-    }
-
-    public CartItem toCartItem() {
-        return new CartItem(
-                this.getId(),
-                this.getProducts(),
-                this.getQuantity(),
-                this.calculateTotalPrice(),
-                this.getUnitPrice()
-        );
-    }
-
-    // totalPrice 계산 메서드 (예시)
-    private Long calculateTotalPrice() {
-        return this.quantity * this.unitPrice;
-    }
-
-    public void addProduct(ProductEntity product, long quantity) {
-        CartItem existingItem = this.items.stream()
-                .filter(item -> item.getProduct().getId().equals(product.getId()))
-                .findFirst()
-                .orElse(null);
-
-        if (existingItem != null) {
-            // 상품이 이미 있다면, 수량을 업데이트
-            existingItem.setQuantity(existingItem.getQuantity() + quantity);
-        } else {
-            // 상품이 없다면, 새로운 상품 추가
-            this.products.add(product);
-            product.setQuantity(quantity);
+    public void addProduct(Product product, Long quantity) {
+        if (quantity <= 0) {
+            return;
         }
 
-        // 총 가격을 재계산
-        recalculateTotalPrice();
+        Optional<LineItem> found = findLineItem(product.id());
+
+        if (found.isPresent()) {
+            LineItem lineItem = found.get();
+            lineItem.increaseQuantity(quantity.intValue());
+            return;
+        }
+
+        LineItem lineItem = LineItem.create(product, quantity.intValue());
+
+        lineItems.add(lineItem);
     }
 
-    private void recalculateTotalPrice() {
-        long total = 0;
-        for (ProductEntity product : this.products) {
-            total += product.getUnitPrice() * product.getQuantity();
+    public void changeLineItemQuantity(LineItemId lineItemId, Long quantity) {
+        LineItem lineItem = findLineItem(lineItemId).get();
+
+        if (quantity <= 0) {
+            lineItems.remove(lineItem);
+            return;
         }
-        this.totalPrice = total;
+
+        lineItem.changeQuantity(quantity.intValue());
     }
+
+    public int lineItemsSize() {
+        return lineItems.size();
+    }
+
+    public LineItem lineItem(int index) {
+        return lineItems.get(index);
+    }
+
+    public List<LineItem> getLineItems() {
+        return lineItems;
+    }
+
+    public Optional<LineItem> findLineItem(ProductId productId) {
+        return lineItems.stream()
+                .filter(item -> item.sameProduct(productId))
+                .findFirst();
+    }
+
+    public Optional<LineItem> findLineItem(LineItemId lineItemId) {
+        return lineItems.stream()
+                .filter(item -> item.id().equals(lineItemId))
+                .findFirst();
+    }
+    public CartResponse toResponse() {
+        System.out.println(lineItems);
+        List<LineItemResponse> lineItemResponses = lineItems.stream()
+                .map(lineItem -> new LineItemResponse(
+                        lineItem.getId().toString(),
+                        lineItem.getProductName(),
+                        lineItem.getQuantity(),
+                        lineItem.getUnitPrice().getValue(),
+                        lineItem.getTotalPrice().getValue()
+                ))
+                .toList();
+        return new CartResponse(lineItemResponses);
+    }
+}
