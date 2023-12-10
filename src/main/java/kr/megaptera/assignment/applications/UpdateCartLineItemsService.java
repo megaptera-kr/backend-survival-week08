@@ -1,29 +1,28 @@
 package kr.megaptera.assignment.applications;
 
-import kr.megaptera.assignment.dtos.UpdateCartLineItemsInput;
+import kr.megaptera.assignment.dtos.UpdateCartLineItemsInputDto;
 import kr.megaptera.assignment.exceptions.CartLineItemNotFound;
 import kr.megaptera.assignment.exceptions.ProductNotFound;
 import kr.megaptera.assignment.models.CartLineItem;
 import kr.megaptera.assignment.models.Product;
-import kr.megaptera.assignment.repositories.CartLineItemRepository;
 import kr.megaptera.assignment.repositories.ProductRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UpdateCartLineItemsService {
-    private CartLineItemRepository cartLineItemRepository;
     private ProductRepository productRepository;
 
-    public UpdateCartLineItemsService(CartLineItemRepository cartLineItemRepository, ProductRepository productRepository) {
-        this.cartLineItemRepository = cartLineItemRepository;
+    public UpdateCartLineItemsService(ProductRepository productRepository) {
+
         this.productRepository = productRepository;
     }
 
     @Transactional
-    public void updateQuantity(String id, UpdateCartLineItemsInput updateCartLineItemsInput) {
+    public void updateQuantity(String id, UpdateCartLineItemsInputDto updateCartLineItemsInputDto) {
 
         Product product = productRepository.findById(Long.valueOf(id)).get();
+        System.out.println(product);
         if (product == null) {
             throw new ProductNotFound();
         }
@@ -31,6 +30,6 @@ public class UpdateCartLineItemsService {
         if (cartLineItem == null) {
             throw new CartLineItemNotFound();
         }
-        product.updateCartLineItem(updateCartLineItemsInput);
+        product.updateCartLineItemQuantity(updateCartLineItemsInputDto.getQuantity());
     }
 }

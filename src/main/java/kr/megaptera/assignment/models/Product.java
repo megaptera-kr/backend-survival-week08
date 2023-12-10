@@ -7,8 +7,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import kr.megaptera.assignment.dtos.CreateProductDto;
-import kr.megaptera.assignment.dtos.UpdateCartLineItemsInput;
 
 @Entity
 @Table(name = "products")
@@ -23,9 +21,9 @@ public class Product {
     @OneToOne(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private CartLineItem cartLineItem;
 
-    public Product(CreateProductDto createProductDto) {
-        this.name = createProductDto.getName();
-        this.price = createProductDto.getPrice();
+    public Product(String name, Long price) {
+        this.name = name;
+        this.price = price;
     }
 
     public Product() {
@@ -48,11 +46,17 @@ public class Product {
         return cartLineItem;
     }
 
-    public void updateCartLineItem(UpdateCartLineItemsInput updateCartLineItemsInput) {
-        if (updateCartLineItemsInput.getQuantity() <= 0) {
+    public void updateCartLineItemQuantity(Long quantity) {
+        if (quantity <= 0) {
             this.cartLineItem = null;
-        } else {
-            cartLineItem.setQuantity(updateCartLineItemsInput.getQuantity());
+            return;
         }
+
+        if (cartLineItem == null) {
+            cartLineItem = new CartLineItem(this, quantity);
+        } else {
+            cartLineItem.setQuantity(quantity);
+        }
+
     }
 }

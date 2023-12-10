@@ -1,9 +1,9 @@
 package kr.megaptera.assignment.controllers;
 
 import kr.megaptera.assignment.applications.CreateProductService;
-import kr.megaptera.assignment.applications.GetProductService;
+import kr.megaptera.assignment.applications.GetProductsService;
 import kr.megaptera.assignment.dtos.CreateProductDto;
-import kr.megaptera.assignment.dtos.GetProductsOutput;
+import kr.megaptera.assignment.dtos.GetProductsOutputDto;
 import kr.megaptera.assignment.dtos.ProductDto;
 import kr.megaptera.assignment.exceptions.CartLineItemNotFound;
 import kr.megaptera.assignment.exceptions.ProductNotFound;
@@ -25,18 +25,18 @@ import java.util.stream.Collectors;
 @CrossOrigin
 @RequestMapping("/products")
 public class ProductController {
-    private GetProductService getProductService;
+    private GetProductsService getProductsService;
     private CreateProductService createProductService;
 
-    public ProductController(GetProductService getProductService, CreateProductService createProductService) {
-        this.getProductService = getProductService;
+    public ProductController(GetProductsService getProductsService, CreateProductService createProductService) {
+        this.getProductsService = getProductsService;
         this.createProductService = createProductService;
     }
 
     @GetMapping
-    public GetProductsOutput get() {
-        List<Product> products = getProductService.getProducts();
-        return new GetProductsOutput(products.stream().map(product -> new ProductDto(product)).collect(Collectors.toList()));
+    public GetProductsOutputDto get() {
+        List<Product> products = getProductsService.getProducts();
+        return new GetProductsOutputDto(products.stream().map(product -> new ProductDto(product)).collect(Collectors.toList()));
     }
 
     @PostMapping

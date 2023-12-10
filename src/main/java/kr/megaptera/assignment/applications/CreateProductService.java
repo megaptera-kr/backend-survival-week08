@@ -16,6 +16,6 @@ public class CreateProductService {
 
     @Transactional
     public void create(CreateProductDto createProductDto) {
-        productRepository.save(new Product(createProductDto));
+        productRepository.save(new Product(createProductDto.getName(), createProductDto.getPrice()));
     }
 }

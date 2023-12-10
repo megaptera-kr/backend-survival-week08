@@ -3,9 +3,9 @@ package kr.megaptera.assignment.controllers;
 import kr.megaptera.assignment.applications.CreateCartLineItemsService;
 import kr.megaptera.assignment.applications.GetCartLineItemsService;
 import kr.megaptera.assignment.applications.UpdateCartLineItemsService;
-import kr.megaptera.assignment.dtos.CreateCartLineItemsInput;
+import kr.megaptera.assignment.dtos.CreateCartLineItemsInputDto;
 import kr.megaptera.assignment.dtos.GetLineItemsOutputDto;
-import kr.megaptera.assignment.dtos.UpdateCartLineItemsInput;
+import kr.megaptera.assignment.dtos.UpdateCartLineItemsInputDto;
 import kr.megaptera.assignment.models.CartLineItem;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -42,13 +42,13 @@ public class CartLineItemsController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void create(@RequestBody CreateCartLineItemsInput createCartLineItemsInput) {
-        createCartLineItemsService.createCartLineItems(createCartLineItemsInput);
+    public void create(@RequestBody CreateCartLineItemsInputDto createCartLineItemsInputDto) {
+        createCartLineItemsService.createCartLineItems(createCartLineItemsInputDto);
     }
 
     @PatchMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@PathVariable String id, @RequestBody UpdateCartLineItemsInput updateCartLineItemsInput) {
-        updateCartLineItemsService.updateQuantity(id, updateCartLineItemsInput);
+    public void update(@PathVariable String id, @RequestBody UpdateCartLineItemsInputDto updateCartLineItemsInputDto) {
+        updateCartLineItemsService.updateQuantity(id, updateCartLineItemsInputDto);
     }
 }

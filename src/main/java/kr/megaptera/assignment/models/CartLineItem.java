@@ -6,7 +6,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import kr.megaptera.assignment.dtos.CreateCartLineItemsInput;
 
 @Entity
 @Table(name = "cart_line_items")
@@ -33,9 +32,9 @@ public class CartLineItem {
     public CartLineItem() {
     }
 
-    public CartLineItem(CreateCartLineItemsInput createCartLineItemsInput, Product product) {
+    public CartLineItem(Product product, Long quantity) {
         this.product = product;
-        this.quantity = createCartLineItemsInput.getQuantity();
+        this.quantity = quantity;
         applyQuantityChange();
     }
 
