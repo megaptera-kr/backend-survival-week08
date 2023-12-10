@@ -6,9 +6,11 @@ import kr.megaptera.assignment.applications.UpdateCartLineItemsService;
 import kr.megaptera.assignment.dtos.CreateCartLineItemsInputDto;
 import kr.megaptera.assignment.dtos.GetLineItemsOutputDto;
 import kr.megaptera.assignment.dtos.UpdateCartLineItemsInputDto;
+import kr.megaptera.assignment.exceptions.CartLineItemNotFound;
 import kr.megaptera.assignment.models.CartLineItem;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -50,5 +52,11 @@ public class CartLineItemsController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(@PathVariable String id, @RequestBody UpdateCartLineItemsInputDto updateCartLineItemsInputDto) {
         updateCartLineItemsService.updateQuantity(id, updateCartLineItemsInputDto);
+    }
+    
+    @ExceptionHandler(CartLineItemNotFound.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public String CartLineItemNotFound() {
+        return "장바구니에 해당 주문이 없습니다.";
     }
 }

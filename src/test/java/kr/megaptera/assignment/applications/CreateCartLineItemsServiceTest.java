@@ -2,7 +2,6 @@ package kr.megaptera.assignment.applications;
 
 import kr.megaptera.assignment.dtos.CreateCartLineItemsInputDto;
 import kr.megaptera.assignment.models.Product;
-import kr.megaptera.assignment.repositories.CartLineItemRepository;
 import kr.megaptera.assignment.repositories.ProductRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -18,13 +17,11 @@ import static org.mockito.Mockito.verify;
 class CreateCartLineItemsServiceTest {
     private ProductRepository productRepository;
     private CreateCartLineItemsService createCartLineItemsService;
-    private CartLineItemRepository cartLineItemRepository;
     private Product product;
 
     @BeforeEach
     void setUp() {
         productRepository = mock(ProductRepository.class);
-        cartLineItemRepository = mock(CartLineItemRepository.class);
         createCartLineItemsService = new CreateCartLineItemsService(productRepository);
         product = mock(Product.class);
     }
