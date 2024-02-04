@@ -1,10 +1,9 @@
-package kr.megaptera.assignment.controllers;
+package kr.megaptera.assignment.applications;
 
 import jakarta.transaction.Transactional;
 import kr.megaptera.assignment.dtos.CartLineItemUpdateDto;
 import kr.megaptera.assignment.models.Cart;
 import kr.megaptera.assignment.models.CartId;
-import kr.megaptera.assignment.models.LineItem;
 import kr.megaptera.assignment.models.LineItemId;
 import kr.megaptera.assignment.repository.CartRepository;
 import org.springframework.stereotype.Service;
@@ -26,8 +25,7 @@ public class UpdateCartLineItemService {
             cartRepository.save(Cart.getCart());
         }
         Optional<Cart> cartOptional = cartRepository.findById(CartId.DEFAULT);
-        LineItem lineItem = cartOptional.get().getLineItem(lineItemId);
-        lineItem.addQuantity(dto.getQuantity());
+        cartOptional.get().setLineItemQuantity(lineItemId, dto.getQuantity());
         cartRepository.save(cartOptional.get());
     }
 }

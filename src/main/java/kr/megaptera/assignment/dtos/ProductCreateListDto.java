@@ -1,34 +1,29 @@
 package kr.megaptera.assignment.dtos;
 
-public class ProductCreateDto {
-    private String name;
-    private Long price;
+import java.util.List;
 
-    protected ProductCreateDto() {
+public class ProductCreateListDto {
+    private List<ProductCreateDto> products;
+
+    protected ProductCreateListDto() {
     }
 
-    protected ProductCreateDto(String name, Long price) {
-        this.name = name;
-        this.price = price;
+    protected ProductCreateListDto(List<ProductCreateDto> products) {
+        this.products = products;
     }
 
-    public static ProductCreateDto of(String name, Long price) {
-        return new ProductCreateDto(name, price);
+    public static ProductCreateListDto of(List<ProductCreateDto> products) {
+        return new ProductCreateListDto(products);
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public Long getPrice() {
-        return price;
+    public List<ProductCreateDto> getProducts() {
+        return products;
     }
 
     @Override
     public String toString() {
-        return "ProductCreateDto{" +
-               "name='" + name + '\'' +
-               ", price=" + price +
+        return "ProductCreateListDto{" +
+               "products=" + products +
                '}';
     }
 }
