@@ -1,30 +1,39 @@
 package models;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "PRODUCT")
 public class Product {
     @Id
     @Column(name = "id")
-    private String id;
+    private java.lang.String id;
     @Column(name = "name")
-    @OneToOne
-    private Name name;
+    private String name;
     @Column(name = "price")
     private int price;
 
-    public Product(String id, Name name, int price) {
+    public Product() {
+    }
+
+    public Product(String id) {
+        this.id = id;
+    }
+
+    public Product(String id, String name, int price) {
         this.id = id;
         this.name = name;
         this.price = price;
     }
 
-    public String id() {
+    public java.lang.String id() {
         return id;
     }
 
-    public Name name() {
+    public String name() {
         return name;
     }
 

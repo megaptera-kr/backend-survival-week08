@@ -1,8 +1,9 @@
 package application;
 
-import dtos.CartDto;
 import dtos.CartInsertDto;
-import models.Cart;
+import dtos.CartListDto;
+import dtos.CartUpdateDto;
+import models.CartItem;
 import org.springframework.stereotype.Service;
 import repository.CartRepository;
 
@@ -18,19 +19,23 @@ public class CartService {
         this.cartRepository = cartRepository;
     }
 
-    public List<CartDto> getCartList() {
-        Iterator<Cart> cartList = cartRepository.findAll().iterator();
-        List<CartDto> cartDtos = new ArrayList<>();
+    public List<CartListDto> getCartList() {
+        Iterator<CartItem> cartList = cartRepository.findAll().iterator();
+        List<CartListDto> cartListDtos = new ArrayList<>();
         while (cartList.hasNext()) {
-            Cart cart = cartList.next();
-            cartDtos.add(new CartDto(cart));
+            CartItem cartItem = cartList.next();
+            cartListDtos.add(new CartListDto(cartItem));
         }
-        return cartDtos;
+        return cartListDtos;
     }
 
-    public void insertCart(CartInsertDto cartInsertDto) {
-        String itemName = cartInsertDto.getName();
-        int itemQty = cartInsertDto.getQuantity();
+    public void insertCartList(CartInsertDto cartInsertDto) {
+        CartItem cartItem = new CartItem(cartInsertDto);
+        cartRepository.save(cartItem);
+    }
 
+    public void updateCart(CartUpdateDto dto) {
+        CartItem cartItem = new CartItem(dto);
+        cartRepository.save(cartItem);
     }
 }

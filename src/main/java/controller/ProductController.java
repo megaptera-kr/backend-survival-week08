@@ -27,6 +27,7 @@ public class ProductController {
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
     public void insertProduct(@RequestBody ProductInsertDto dto) {
+        System.out.println("TEST");
         productService.insertProduct(dto);
     }
 }

@@ -1,7 +1,7 @@
 package repository;
 
-import models.Cart;
+import models.CartItem;
 import org.springframework.data.repository.CrudRepository;
 
-public interface CartRepository extends CrudRepository<Cart, String> {
+public interface CartRepository extends CrudRepository<CartItem, String> {
 }

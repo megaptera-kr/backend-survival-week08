@@ -4,7 +4,6 @@ import com.github.f4b6a3.tsid.TsidCreator;
 import dtos.ProductDto;
 import dtos.ProductInsertDto;
 import jakarta.transaction.Transactional;
-import models.Name;
 import models.Product;
 import org.springframework.stereotype.Service;
 import repository.ProductRepository;
@@ -33,9 +32,9 @@ public class ProductService {
 
     @Transactional
     public void insertProduct(ProductInsertDto dto) {
-        String insertProductId = TsidCreator.getTsid().toString();
+        java.lang.String insertProductId = TsidCreator.getTsid().toString();
         Product insertProduct = new Product(insertProductId
-                , new Name(dto.getName())
+                , new String(dto.getName())
                 , dto.getPrice());
         productRepository.save(insertProduct);
     }

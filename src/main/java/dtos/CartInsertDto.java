@@ -1,27 +1,27 @@
 package dtos;
 
 public class CartInsertDto {
-    private String name;
-    private int quantity;
+    private String id;
+    private long quantity;
 
-    public CartInsertDto(String name, int quantity) {
-        this.name = name;
+    public CartInsertDto(String id, long quantity) {
+        this.id = id;
         this.quantity = quantity;
     }
 
-    public String getName() {
-        return name;
+    public String getId() {
+        return id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public int getQuantity() {
+    public long getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(long quantity) {
         this.quantity = quantity;
     }
 }
